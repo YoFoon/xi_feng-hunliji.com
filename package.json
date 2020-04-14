@@ -18,6 +18,7 @@
   "scripts": {
     "start": "vuepress dev docs --temp .temp",
     "build": "vuepress build docs --temp .temp",
+    "builder": "vuepress build docs --temp .temp && cp -R ./docs/.vuepress/dist ./dist",
     "view-info": "vuepress view-info docs --temp .temp",
     "show-help": "vuepress --help",
     "deploy": "bash deploy.sh"
