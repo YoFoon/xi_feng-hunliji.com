@@ -1,0 +1,1 @@
+export { default } from "/Users/yofoon/Documents/mayf/FE-FACE/node_modules/@vuepress/plugin-back-to-top/enhanceAppFile.js"
