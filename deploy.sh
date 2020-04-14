@@ -17,7 +17,7 @@ git add -A
 git commit -m 'deploy'
 
 # 如果你想要部署到 https://<USERNAME>.github.io
-# git push -f https://github.com/YoFoon/fe-face.git master
+git push -f https://github.com/YoFoon/site.git master
 
 # 如果你想要部署到 https://<USERNAME>.github.io/<REPO>
 git push -f https://github.com/YoFoon/fe-face.git master:gh-pages
