@@ -10,8 +10,6 @@ React 16 之后有三个生命周期被废弃(但并未删除)
 
 官方计划在 17 版本完全删除这三个函数，只保留 UNSAVE\_前缀的三个函数，目的是为了向下兼容，但是对于开发者而言应该尽量避免使用他们，而是使用新增的生命周期函数替代它们
 
-目前 React 16.8 +的生命周期分为三个阶段,分别是挂载阶段、更新阶段、卸载阶段
-
 挂载阶段:
 
 - constructor: 构造函数，最先被执行,我们通常在构造函数里初始化 state 对象或者给自定义方法绑定 this
@@ -31,21 +29,23 @@ React 16 之后有三个生命周期被废弃(但并未删除)
 
 - componentWillUnmount: 当我们的组件被卸载或者销毁了就会调用，我们可以在这个函数里去清除一些定时器，取消网络请求，清理无效的 DOM 元素等垃圾清理工作
 
-![2019-07-31-14-30-17](https://xiaomuzhu-image.oss-cn-beijing.aliyuncs.com/5938ab9354c1aa40bd4637f976ece8b9.png)
+![生命周期](https://qnm.hunliji.com/Fh3PiwrPfl5Jk1GksHi91gMQRrpN)
 
 > 一个查看 react 生命周期的[网站](http://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/)
 
 ## React 的请求应该放在哪个生命周期中?
 
-React 的异步请求到底应该放在哪个生命周期里,有人认为在`componentWillMount`中可以提前进行异步请求,避免白屏,其实这个观点是有问题的.
+不要在 `componentWillMount` 中添加事件监听
 
-由于 JavaScript 中异步事件的性质，当您启动 API 调用时，浏览器会在此期间返回执行其他工作。当 React 渲染一个组件时，它不会等待 componentWillMount 它完成任何事情 - React 继续前进并继续 render,没有办法“暂停”渲染以等待数据到达。
+`componentWillMount` 可以被打断或调用多次，因此无法保证事件监听能在 unmount 的时候被成功卸载，可能会引起内存泄露
 
-而且在`componentWillMount`请求会有一系列潜在的问题,首先,在服务器渲染时,如果在 componentWillMount 里获取数据，fetch data 会执行两次，一次在服务端一次在客户端，这造成了多余的请求,其次,在 React 16 进行 React Fiber 重写后,`componentWillMount`可能在一次渲染中多次调用.
+由于 React 未来的版本中推出了异步渲染，在 `dom` 被挂载之前的阶段都可以被打断重来，导致 `componentWillMount`、`componentWillUpdate`、`componentWillReceiveProps` 在一次更新中可能会被触发多次，因此那些只希望触发一次的副作用应该放在 `componentDidMount` 中
+
+这也就是为什么要把异步请求放在 `componentDidMount` 中，而不是放在 `componentWillMount` 中的原因，为了向后兼容
 
 目前官方推荐的异步请求是在`componentDidmount`中进行.
 
-如果有特殊需求需要提前请求,也可以在特殊情况下在`constructor`中请求:[](https://gist.github.com/bvaughn/89700e525ff423a75ffb63b1b1e30a8f)
+如果有特殊需求需要提前请求,也可以在特殊情况下在`constructor`中请求
 
 > react 17 之后`componentWillMount`会被废弃,仅仅保留`UNSAFE_componentWillMount`
 
@@ -53,9 +53,9 @@ React 的异步请求到底应该放在哪个生命周期里,有人认为在`com
 
 先给出答案: 有时表现出异步,有时表现出同步
 
-1. **`setState`只在合成事件和钩子函数中是“异步”的，在原生事件和`setTimeout`  中都是同步的。**
-2. **`setState`  的“异步”并不是说内部由异步代码实现，其实本身执行的过程和代码都是同步的，只是合成事件和钩子函数的调用顺序在更新之前，导致在合成事件和钩子函数中没法立马拿到更新后的值，形成了所谓的“异步”，当然可以通过第二个参数  `setState(partialState, callback)`  中的`callback`拿到更新后的结果。**
-3. **`setState`  的批量更新优化也是建立在“异步”（合成事件、钩子函数）之上的，在原生事件和 setTimeout 中不会批量更新，在“异步”中如果对同一个值进行多次`setState`，`setState`的批量更新策略会对其进行覆盖，取最后一次的执行，如果是同时`setState`多个不同的值，在更新时会对其进行合并批量更新。**
+1. `setState`只在合成事件(setState)和钩子函数(生命周期)中是“异步”的，在原生事件(addEventListener)和setTimeout中都是同步的。
+2. `setState`  的“异步”并不是说内部由异步代码实现，其实本身执行的过程和代码都是同步的，只是合成事件和钩子函数的调用顺序在更新之前，导致在合成事件和钩子函数中没法立马拿到更新后的值，形成了所谓的“异步”，当然可以通过第二个参数  `setState(partialState, callback)`  中的`callback`拿到更新后的结果。
+3. `setState`  的批量更新优化也是建立在“异步”（合成事件、钩子函数）之上的，在原生事件和 setTimeout 中不会批量更新，在“异步”中如果对同一个值进行多次`setState`，`setState`的批量更新策略会对其进行覆盖，取最后一次的执行，如果是同时`setState`多个不同的值，在更新时会对其进行合并批量更新。
 
 ## React 组件通信如何实现?
 
@@ -65,10 +65,9 @@ React 组件间通信方式:
 - 子组件向父组件通讯: props+回调的方式,父组件向子组件传递 props 进行通讯，此 props 为作用域为父组件自身的函数，子组件调用该函数，将子组件想要传递的信息，作为参数，传递到父组件的作用域中
 - 兄弟组件通信: 找到这两个兄弟节点共同的父节点,结合上面两种方式由父节点转发信息进行通信
 - 跨层级通信: `Context`设计目的是为了共享那些对于一个组件树而言是“全局”的数据，例如当前认证的用户、主题或首选语言, 对于跨越多层的全局数据通过`Context`通信再适合不过
-- 发布订阅模式: 发布者发布事件，订阅者监听事件并做出反应,我们可以通过引入 event 模块进行通信
+- 发布订阅模式: 发布者发布事件，订阅者监听事件并做出反应,我们可以通过引入 event 模块进行通信[](https://juejin.im/post/5d44e3745188255d5861d654)
 - 全局状态管理工具: 借助 Redux 或者 Mobx 等全局状态管理工具进行通信,这种工具会维护一个全局状态中心 Store,并根据不同的事件产生新的状态
 
-![2019-07-31-18-38-37](https://xiaomuzhu-image.oss-cn-beijing.aliyuncs.com/2ccb1b43c7392d5a0594668fdcbec4de.png)
 
 ## React 有哪些优化性能是手段?
 
@@ -86,47 +85,7 @@ React 组件间通信方式:
 
 组件复用详解见[组件复用](abstract.md)
 
-## mixin、hoc、render props、react-hooks 的优劣如何？
-
-Mixin 的缺陷：
-
-- 组件与 Mixin 之间存在隐式依赖（Mixin 经常依赖组件的特定方法，但在定义组件时并不知道这种依赖关系）
-
-- 多个 Mixin 之间可能产生冲突（比如定义了相同的 state 字段）
-
-- Mixin 倾向于增加更多状态，这降低了应用的可预测性（The more state in your application, the harder it is to reason about it.），导致复杂度剧增
-
-- 隐式依赖导致依赖关系不透明，维护成本和理解成本迅速攀升：
-
-  - 难以快速理解组件行为，需要全盘了解所有依赖 Mixin 的扩展行为，及其之间的相互影响
-
-  - 组价自身的方法和 state 字段不敢轻易删改，因为难以确定有没有 Mixin 依赖它
-
-  - Mixin 也难以维护，因为 Mixin 逻辑最后会被打平合并到一起，很难搞清楚一个 Mixin 的输入输出
-
-**HOC 相比 Mixin 的优势:**
-
-- HOC 通过外层组件通过 Props 影响内层组件的状态，而不是直接改变其 State 不存在冲突和互相干扰,这就降低了耦合度
-- 不同于 Mixin 的打平+合并，HOC 具有天然的层级结构（组件树结构），这又降低了复杂度
-
-**HOC 的缺陷:**
-
-- 扩展性限制: HOC 无法从外部访问子组件的 State 因此无法通过 shouldComponentUpdate 滤掉不必要的更新,React 在支持 ES6 Class 之后提供了 React.PureComponent 来解决这个问题
-- Ref 传递问题: Ref 被隔断,后来的 React.forwardRef 来解决这个问题
-- Wrapper Hell: HOC 可能出现多层包裹组件的情况,多层抽象同样增加了复杂度和理解成本
-- 命名冲突: 如果高阶组件多次嵌套,没有使用命名空间的话会产生冲突,然后覆盖老属性
-- 不可见性: HOC 相当于在原有组件外层再包装一个组件,你压根不知道外层的包装是啥,对于你是黑盒
-
-**Render Props 优点:**
-
-- 上述 HOC 的缺点 Render Props 都可以解决
-
-**Render Props 缺陷:**
-
-- 使用繁琐: HOC 使用只需要借助装饰器语法通常一行代码就可以进行复用,Render Props 无法做到如此简单
-- 嵌套过深: Render Props 虽然摆脱了组件多层嵌套的问题,但是转化为了函数回调的嵌套
-
-**React Hooks 优点:**
+## React Hooks 优点
 
 - 简洁: React Hooks 解决了 HOC 和 Render Props 的嵌套问题,更加简洁
 - 解耦: React Hooks 可以更方便地把 UI 和状态分离,做到更彻底的解耦
@@ -136,7 +95,7 @@ Mixin 的缺陷：
   - 分割在不同声明周期中的逻辑使得代码难以理解和维护
   - 代码复用成本高（高阶组件容易使代码量剧增）
 
-**React Hooks 缺陷:**
+## React Hooks 缺陷
 
 - 额外的学习成本（Functional Component 与 Class Component 之间的困惑）
 
@@ -158,7 +117,7 @@ React Fiber 是一种基于浏览器的**单线程调度算法**.
 
 React 16 之前 ，`reconcilation`  算法实际上是递归，想要中断递归是很困难的，React 16 开始使用了循环来代替之前的递归.
 
-`Fiber`：**一种将 `recocilation` （递归 diff），拆分成无数个小任务的算法；它随时能够停止，恢复。停止恢复的时机取决于当前的一帧（16ms）内，还有没有足够的时间允许计算。**
+`Fiber`：一种将 `recocilation` （递归 diff），拆分成无数个小任务的算法；它随时能够停止，恢复。停止恢复的时机取决于当前的一帧（16ms）内，还有没有足够的时间允许计算。
 
 ## 你对 Time Slice 的理解?
 
@@ -172,13 +131,23 @@ React 16 之前 ，`reconcilation`  算法实际上是递归，想要中断递�
 
 也就是说，这是 React 背后在做的事情，对于我们开发者来说，是透明的，具体是什么样的效果呢？
 
-![](https://cdn.nlark.com/yuque/0/2019/jpeg/128853/1564603412900-e2811022-5c2d-44d1-9893-a4647c394bb3.jpeg#align=left&display=inline&height=472&originHeight=472&originWidth=565&size=0&status=done&width=565)![](https://cdn.nlark.com/yuque/0/2019/jpeg/128853/1564603412850-0ca87f6b-f5af-432e-b9de-e082b1b089de.jpeg#align=left&display=inline&height=472&originHeight=472&originWidth=565&size=0&status=done&width=565)有图表三个图表，有一个输入框，以及上面的三种模式<br />**这个组件非常的巨大，而且在输入框**每次**输入东西的时候，就会进去一直在渲染。**为了更好的看到渲染的性能，Dan 为我们做了一个表。
+![](https://qnm.hunliji.com/Fr-h5um6oxUGYLZQm8_C8qXdhDja)
+有图表三个图表，有一个输入框，以及上面的三种模式<br />**这个组件非常的巨大，而且在输入框**每次**输入东西的时候，就会进去一直在渲染。**为了更好的看到渲染的性能，Dan 为我们做了一个表。
 
-我们先看看，同步模式：<br />![](https://cdn.nlark.com/yuque/0/2019/jpeg/128853/1564603413125-b8d05f9e-e9c6-4c64-ab7d-c509678fd461.jpeg#align=left&display=inline&height=405&originHeight=405&originWidth=566&size=0&status=done&width=566)![](https://cdn.nlark.com/yuque/0/2019/jpeg/128853/1564603412868-029ea058-8277-4990-87a5-8576697084ee.jpeg#align=left&display=inline&height=405&originHeight=405&originWidth=566&size=0&status=done&width=566)<br />同步模式下，我们都知道，我们没输入一个字符，React 就开始渲染，当 React 渲染一颗巨大的树的时候，是非常卡的，所以才会有 shouldUpdate 的出现，在这里 Dan 也展示了，这种卡！
+我们先看看，同步模式：
+![](https://qnm.hunliji.com/FsQ2X_Voxm_swy9TbYg9ga1HTVxN)
 
-我们再来看看第二种（Debounced 模式）：<br />![](https://cdn.nlark.com/yuque/0/2019/jpeg/128853/1564603413109-a25c5666-3671-452a-b3b5-30af1c531d61.jpeg#align=left&display=inline&height=402&originHeight=402&originWidth=532&size=0&status=done&width=532)![](https://cdn.nlark.com/yuque/0/2019/jpeg/128853/1564603412827-c64b8982-803b-4a17-8d3c-7d43f7efeafa.jpeg#align=left&display=inline&height=402&originHeight=402&originWidth=532&size=0&status=done&width=532)<br />Debounced 模式简单的来说，就是延迟渲染，比如，当你输入完成以后，再开始渲染所有的变化。<br />这么做的坏处就是，至少不会阻塞用户的输入了，但是依然有非常严重的卡顿。
+同步模式下，我们都知道，我们没输入一个字符，React 就开始渲染，当 React 渲染一颗巨大的树的时候，是非常卡的，所以才会有 shouldUpdate 的出现，在这里 Dan 也展示了，这种卡！
 
-切换到异步模式：<br />![](https://cdn.nlark.com/yuque/0/2019/jpeg/128853/1564603413159-53ff5ff7-4931-4454-8b73-06127d6db6bc.jpeg#align=left&display=inline&height=426&originHeight=426&originWidth=578&size=0&status=done&width=578)![](https://cdn.nlark.com/yuque/0/2019/jpeg/128853/1564603412901-c9f08337-d931-495c-91f3-e5a613126c47.jpeg#align=left&display=inline&height=426&originHeight=426&originWidth=578&size=0&status=done&width=578)<br />异步渲染模式就是不阻塞当前线程，继续跑。在视频里可以看到所有的输入，表上都会是原谅色的。
+我们再来看看第二种（Debounced 模式）：
+![](https://qnm.hunliji.com/FuYu434XPDd1bZMWn1Gcvei4Z1sR)
+
+Debounced 模式简单的来说，就是延迟渲染，比如，当你输入完成以后，再开始渲染所有的变化。<br />这么做的坏处就是，至少不会阻塞用户的输入了，但是依然有非常严重的卡顿。
+
+切换到异步模式：
+![](https://qnm.hunliji.com/Fifu0QfOFkklJJnzFMqkgDvgqeGq)
+
+异步渲染模式就是不阻塞当前线程，继续跑。在视频里可以看到所有的输入，表上都会是原谅色的。
 
 时间分片正是基于可随时打断、重启的 Fiber 架构,可打断当前任务,优先处理紧急且重要的任务,保证页面的流畅运行.
 
@@ -212,6 +181,34 @@ React 16 之前 ，`reconcilation`  算法实际上是递归，想要中断递�
   - 监听 store tree 变化: connect 缓存了 store tree 中 state 的状态,通过当前 state 状态和变更前 state 状态进行比较,从而确定是否调用`this.setState()`方法触发 Connect 及其子组件的重新渲染
 
 ![2019-08-01-22-21-51](https://xiaomuzhu-image.oss-cn-beijing.aliyuncs.com/710f0a9f0a8e6a320f55fa0ca795a3c7.png)
+
+## React合成事件和DOM原生事件
+### 先说一下结论
+- 合成事件的监听器是统一注册在document上的，且仅有冒泡阶段。**所以原生事件的监听器响应总是比合成事件的监听器早**
+- 阻止原生事件的冒泡后，会阻止合成事件的监听器执行
+
+### 响应顺序
+```
+class Demo extends Component {
+  componentDidMount() {
+      const $this = ReactDOM.findDOMNode(this)
+      $this.addEventListener('click', this.onDOMClick, false)
+  }
+  onDOMClick = evt => { console.log('dom event') }
+  onClick = evt => { console.log('react event') }
+  render() {
+      return <div onClick={this.onClick}>Demo</div>
+  }
+}
+```
+最终控制台输出为：
+> dom event    react event
+### 阻止冒泡
+如果在onDOMClick中调用evt.stopPropagation()呢？
+
+由于DOM事件被阻止冒泡了，无法到达document，所以合成事件自然不会被触发，控制台输出就变成了：
+> dom event
+
 
 ## redux 与 mobx 的区别?
 

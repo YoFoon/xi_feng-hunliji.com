@@ -2,32 +2,32 @@ module.exports = [
   {
     title: '前言',
     collapsable: false,
-    children: ['', 'book']
+    children: ['', 'book'],
   },
   {
     title: '前端基础',
     collapsable: true,
-    children: ['html', 'css', 'jsBasic', 'browser', 'jsonp', 'jsWritten']
+    children: ['html', 'css', 'jsBasic', 'browser', 'jsonp', 'jsWritten'],
   },
   {
     title: '前端深入',
     collapsable: true,
-    children: ['hoisting', 'eventLoop', 'immutable', 'memory', 'deepclone', 'event', 'mechanism']
+    children: ['hoisting', 'eventLoop', 'immutable', 'memory', 'deepclone', 'event', 'mechanism'],
   },
   {
     title: '浏览器',
     collapsable: true,
-    children: ['dom', 'domRender', 'cache', 'url']
+    children: ['dom', 'domRender', 'cache', 'url'],
   },
   {
     title: '网络',
     collapsable: true,
-    children: ['http', 'tcp', 'cdn', 'https', 'http2', 'httpWritten']
+    children: ['http', 'tcp', 'cdn', 'https', 'http2', 'httpWritten'],
   },
   {
     title: '常用算法',
     collapsable: true,
-    children: ['algorithm', 'string']
+    children: ['algorithm', 'string'],
   },
   {
     title: '前端框架',
@@ -38,16 +38,15 @@ module.exports = [
       'devsProxy',
       'setState',
       'router',
-      'redux',
       'fiber',
       'abstract',
-      'reactHook'
-    ]
+      'reactHook',
+    ],
   },
   {
     title: '性能',
     collapsable: true,
-    children: ['load', 'execute']
+    children: ['load', 'execute'],
   },
   {
     title: '工程化',
@@ -61,12 +60,12 @@ module.exports = [
       'webpackPluginDesign',
       'webpackMoudle',
       'webpackLoader',
-      'babelPlugin'
-    ]
+      'babelPlugin',
+    ],
   },
   {
     title: '安全',
     collapsable: true,
-    children: ['security']
-  }
+    children: ['security'],
+  },
 ]

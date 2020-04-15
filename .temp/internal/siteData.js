@@ -7,6 +7,14 @@ export const siteData = {
   "base": "/",
   "pages": [
     {
+      "title": "点击空白处隐藏弹出元素",
+      "frontmatter": {},
+      "regularPath": "/blog/20200414-hide-element.html",
+      "relativePath": "blog/20200414-hide-element.md",
+      "key": "v-3112c2a9",
+      "path": "/blog/20200414-hide-element.html"
+    },
+    {
       "title": "Home",
       "frontmatter": {
         "home": true,
@@ -58,14 +66,6 @@ export const siteData = {
           "slug": "updatequeue"
         }
       ]
-    },
-    {
-      "title": "点击空白处隐藏弹出元素",
-      "frontmatter": {},
-      "regularPath": "/blog/20200414-hide-element.html",
-      "relativePath": "blog/20200414-hide-element.md",
-      "key": "v-3112c2a9",
-      "path": "/blog/20200414-hide-element.html"
     },
     {
       "title": "ExpirationTime 计算规则",
@@ -136,6 +136,21 @@ export const siteData = {
       ]
     },
     {
+      "title": "快速链接链接",
+      "frontmatter": {},
+      "regularPath": "/blog/",
+      "relativePath": "blog/README.md",
+      "key": "v-e836351c",
+      "path": "/blog/",
+      "headers": [
+        {
+          "level": 3,
+          "title": "REACT",
+          "slug": "react"
+        }
+      ]
+    },
+    {
       "title": "调度入口函数 scheduleWork",
       "frontmatter": {},
       "regularPath": "/blog/20200414-schedule-work.html",
@@ -166,29 +181,6 @@ export const siteData = {
       ]
     },
     {
-      "title": "快速链接链接",
-      "frontmatter": {},
-      "regularPath": "/blog/",
-      "relativePath": "blog/README.md",
-      "key": "v-e836351c",
-      "path": "/blog/",
-      "headers": [
-        {
-          "level": 3,
-          "title": "REACT",
-          "slug": "react"
-        }
-      ]
-    },
-    {
-      "title": "知识点",
-      "frontmatter": {},
-      "regularPath": "/knowledge/",
-      "relativePath": "knowledge/README.md",
-      "key": "v-c7e05b38",
-      "path": "/knowledge/"
-    },
-    {
       "title": "shell 推送 git",
       "frontmatter": {},
       "regularPath": "/blog/20200414-shell-push-git.html",
@@ -209,34 +201,12 @@ export const siteData = {
       ]
     },
     {
-      "title": "Webpack HMR 原理解析",
+      "title": "知识点",
       "frontmatter": {},
-      "regularPath": "/knowledge/WebpackHMR.html",
-      "relativePath": "knowledge/WebpackHMR.md",
-      "key": "v-2d45693a",
-      "path": "/knowledge/WebpackHMR.html",
-      "headers": [
-        {
-          "level": 2,
-          "title": "为什么需要 HMR",
-          "slug": "为什么需要-hmr"
-        },
-        {
-          "level": 2,
-          "title": "HMR 的工作原理图解",
-          "slug": "hmr-的工作原理图解"
-        },
-        {
-          "level": 2,
-          "title": "运用 HMR 的简单例子",
-          "slug": "运用-hmr-的简单例子"
-        },
-        {
-          "level": 2,
-          "title": "写在最后",
-          "slug": "写在最后"
-        }
-      ]
+      "regularPath": "/knowledge/",
+      "relativePath": "knowledge/README.md",
+      "key": "v-c7e05b38",
+      "path": "/knowledge/"
     },
     {
       "title": "React 组件复用指南",
@@ -359,52 +329,32 @@ export const siteData = {
       ]
     },
     {
-      "title": "书籍/课程推荐",
+      "title": "Webpack HMR 原理解析",
       "frontmatter": {},
-      "regularPath": "/knowledge/book.html",
-      "relativePath": "knowledge/book.md",
-      "key": "v-555bd351",
-      "path": "/knowledge/book.html",
+      "regularPath": "/knowledge/WebpackHMR.html",
+      "relativePath": "knowledge/WebpackHMR.md",
+      "key": "v-2d45693a",
+      "path": "/knowledge/WebpackHMR.html",
       "headers": [
         {
           "level": 2,
-          "title": "书单",
-          "slug": "书单"
+          "title": "为什么需要 HMR",
+          "slug": "为什么需要-hmr"
         },
         {
-          "level": 3,
-          "title": "JavaScript",
-          "slug": "javascript"
+          "level": 2,
+          "title": "HMR 的工作原理图解",
+          "slug": "hmr-的工作原理图解"
         },
         {
-          "level": 3,
-          "title": "CSS:",
-          "slug": "css"
+          "level": 2,
+          "title": "运用 HMR 的简单例子",
+          "slug": "运用-hmr-的简单例子"
         },
         {
-          "level": 3,
-          "title": "算法：",
-          "slug": "算法："
-        },
-        {
-          "level": 3,
-          "title": "安全：",
-          "slug": "安全："
-        },
-        {
-          "level": 3,
-          "title": "canvas：",
-          "slug": "canvas："
-        },
-        {
-          "level": 3,
-          "title": "Node",
-          "slug": "node"
-        },
-        {
-          "level": 3,
-          "title": "网络",
-          "slug": "网络"
+          "level": 2,
+          "title": "写在最后",
+          "slug": "写在最后"
         }
       ]
     },
@@ -540,6 +490,56 @@ export const siteData = {
           "level": 2,
           "title": "结尾",
           "slug": "结尾"
+        }
+      ]
+    },
+    {
+      "title": "书籍/课程推荐",
+      "frontmatter": {},
+      "regularPath": "/knowledge/book.html",
+      "relativePath": "knowledge/book.md",
+      "key": "v-555bd351",
+      "path": "/knowledge/book.html",
+      "headers": [
+        {
+          "level": 2,
+          "title": "书单",
+          "slug": "书单"
+        },
+        {
+          "level": 3,
+          "title": "JavaScript",
+          "slug": "javascript"
+        },
+        {
+          "level": 3,
+          "title": "CSS:",
+          "slug": "css"
+        },
+        {
+          "level": 3,
+          "title": "算法：",
+          "slug": "算法："
+        },
+        {
+          "level": 3,
+          "title": "安全：",
+          "slug": "安全："
+        },
+        {
+          "level": 3,
+          "title": "canvas：",
+          "slug": "canvas："
+        },
+        {
+          "level": 3,
+          "title": "Node",
+          "slug": "node"
+        },
+        {
+          "level": 3,
+          "title": "网络",
+          "slug": "网络"
         }
       ]
     },
@@ -744,26 +744,6 @@ export const siteData = {
       ]
     },
     {
-      "title": "CDN 原理简析",
-      "frontmatter": {},
-      "regularPath": "/knowledge/cdn.html",
-      "relativePath": "knowledge/cdn.md",
-      "key": "v-5e0cccd9",
-      "path": "/knowledge/cdn.html",
-      "headers": [
-        {
-          "level": 3,
-          "title": "1. 访问源站的过程",
-          "slug": "_1-访问源站的过程"
-        },
-        {
-          "level": 3,
-          "title": "2. 通过 CDN 获取缓存内容的过程",
-          "slug": "_2-通过-cdn-获取缓存内容的过程"
-        }
-      ]
-    },
-    {
       "title": "框架通用面试题",
       "frontmatter": {},
       "regularPath": "/knowledge/common.html",
@@ -785,6 +765,26 @@ export const siteData = {
           "level": 2,
           "title": "虚拟 DOM 实现原理?",
           "slug": "虚拟-dom-实现原理"
+        }
+      ]
+    },
+    {
+      "title": "CDN 原理简析",
+      "frontmatter": {},
+      "regularPath": "/knowledge/cdn.html",
+      "relativePath": "knowledge/cdn.md",
+      "key": "v-5e0cccd9",
+      "path": "/knowledge/cdn.html",
+      "headers": [
+        {
+          "level": 3,
+          "title": "1. 访问源站的过程",
+          "slug": "_1-访问源站的过程"
+        },
+        {
+          "level": 3,
+          "title": "2. 通过 CDN 获取缓存内容的过程",
+          "slug": "_2-通过-cdn-获取缓存内容的过程"
         }
       ]
     },
@@ -959,6 +959,46 @@ export const siteData = {
       ]
     },
     {
+      "title": "实现深克隆",
+      "frontmatter": {},
+      "regularPath": "/knowledge/deepclone.html",
+      "relativePath": "knowledge/deepclone.md",
+      "key": "v-00fa9bd9",
+      "path": "/knowledge/deepclone.html",
+      "headers": [
+        {
+          "level": 2,
+          "title": "前言",
+          "slug": "前言"
+        },
+        {
+          "level": 2,
+          "title": "浅克隆",
+          "slug": "浅克隆"
+        },
+        {
+          "level": 2,
+          "title": "深克隆",
+          "slug": "深克隆"
+        },
+        {
+          "level": 3,
+          "title": "JSON.parse 方法",
+          "slug": "json-parse-方法"
+        },
+        {
+          "level": 3,
+          "title": "2.2 构造一个深克隆函数",
+          "slug": "_2-2-构造一个深克隆函数"
+        },
+        {
+          "level": 2,
+          "title": "总结",
+          "slug": "总结"
+        }
+      ]
+    },
+    {
       "title": "Proxy 比 defineproperty 优劣对比?",
       "frontmatter": {},
       "regularPath": "/knowledge/devsProxy.html",
@@ -1024,42 +1064,77 @@ export const siteData = {
       ]
     },
     {
-      "title": "实现深克隆",
+      "title": "DOM",
       "frontmatter": {},
-      "regularPath": "/knowledge/deepclone.html",
-      "relativePath": "knowledge/deepclone.md",
-      "key": "v-00fa9bd9",
-      "path": "/knowledge/deepclone.html",
+      "regularPath": "/knowledge/dom.html",
+      "relativePath": "knowledge/dom.md",
+      "key": "v-182d8439",
+      "path": "/knowledge/dom.html",
       "headers": [
         {
           "level": 2,
-          "title": "前言",
-          "slug": "前言"
+          "title": "DOM 的事件模型是什么？",
+          "slug": "dom-的事件模型是什么？"
         },
         {
           "level": 2,
-          "title": "浅克隆",
-          "slug": "浅克隆"
-        },
-        {
-          "level": 2,
-          "title": "深克隆",
-          "slug": "深克隆"
+          "title": "DOM 的事件流是什么？",
+          "slug": "dom-的事件流是什么？"
         },
         {
           "level": 3,
-          "title": "JSON.parse 方法",
-          "slug": "json-parse-方法"
+          "title": "事件冒泡",
+          "slug": "事件冒泡"
         },
         {
           "level": 3,
-          "title": "2.2 构造一个深克隆函数",
-          "slug": "_2-2-构造一个深克隆函数"
+          "title": "事件捕获",
+          "slug": "事件捕获"
+        },
+        {
+          "level": 3,
+          "title": "事件流",
+          "slug": "事件流"
         },
         {
           "level": 2,
-          "title": "总结",
-          "slug": "总结"
+          "title": "什么是事件委托",
+          "slug": "什么是事件委托"
+        }
+      ]
+    },
+    {
+      "title": "前端工程化",
+      "frontmatter": {},
+      "regularPath": "/knowledge/engineering.html",
+      "relativePath": "knowledge/engineering.md",
+      "key": "v-0dc94419",
+      "path": "/knowledge/engineering.html",
+      "headers": [
+        {
+          "level": 2,
+          "title": "Babel 的原理是什么?",
+          "slug": "babel-的原理是什么"
+        },
+        {
+          "level": 2,
+          "title": "如何写一个 babel 插件?",
+          "slug": "如何写一个-babel-插件"
+        },
+        {
+          "level": 2,
+          "title": "你的 git 工作流是怎样的?",
+          "slug": "你的-git-工作流是怎样的"
+        },
+        {
+          "level": 2,
+          "title": "rebase 与 merge 的区别?",
+          "slug": "rebase-与-merge-的区别"
+        },
+        {
+          "level": 2,
+          "title": "git reset、git revert 和 git checkout 有什么区别",
+          "slug": "git-reset、git-revert-和-git-checkout-有什么区别"
         }
       ]
     },
@@ -1135,41 +1210,6 @@ export const siteData = {
           "level": 3,
           "title": "参考文章",
           "slug": "参考文章"
-        }
-      ]
-    },
-    {
-      "title": "前端工程化",
-      "frontmatter": {},
-      "regularPath": "/knowledge/engineering.html",
-      "relativePath": "knowledge/engineering.md",
-      "key": "v-0dc94419",
-      "path": "/knowledge/engineering.html",
-      "headers": [
-        {
-          "level": 2,
-          "title": "Babel 的原理是什么?",
-          "slug": "babel-的原理是什么"
-        },
-        {
-          "level": 2,
-          "title": "如何写一个 babel 插件?",
-          "slug": "如何写一个-babel-插件"
-        },
-        {
-          "level": 2,
-          "title": "你的 git 工作流是怎样的?",
-          "slug": "你的-git-工作流是怎样的"
-        },
-        {
-          "level": 2,
-          "title": "rebase 与 merge 的区别?",
-          "slug": "rebase-与-merge-的区别"
-        },
-        {
-          "level": 2,
-          "title": "git reset、git revert 和 git checkout 有什么区别",
-          "slug": "git-reset、git-revert-和-git-checkout-有什么区别"
         }
       ]
     },
@@ -1449,6 +1489,56 @@ export const siteData = {
       ]
     },
     {
+      "title": "JavaScript 的『预解释』与『变量提升』",
+      "frontmatter": {},
+      "regularPath": "/knowledge/hoisting.html",
+      "relativePath": "knowledge/hoisting.md",
+      "key": "v-f3518f36",
+      "path": "/knowledge/hoisting.html",
+      "headers": [
+        {
+          "level": 2,
+          "title": "前言",
+          "slug": "前言"
+        },
+        {
+          "level": 2,
+          "title": "从一个实例开始",
+          "slug": "从一个实例开始"
+        },
+        {
+          "level": 2,
+          "title": "avaScript 预解释",
+          "slug": "avascript-预解释"
+        },
+        {
+          "level": 2,
+          "title": "JavaScript 执行环境",
+          "slug": "javascript-执行环境"
+        },
+        {
+          "level": 2,
+          "title": "变量提升",
+          "slug": "变量提升"
+        },
+        {
+          "level": 2,
+          "title": "函数声明与函数表达式",
+          "slug": "函数声明与函数表达式"
+        },
+        {
+          "level": 2,
+          "title": "冲突处理",
+          "slug": "冲突处理"
+        },
+        {
+          "level": 2,
+          "title": "ES6 中的 let",
+          "slug": "es6-中的-let"
+        }
+      ]
+    },
+    {
       "title": "React Fiber 架构解析",
       "frontmatter": {},
       "regularPath": "/knowledge/fiber.html",
@@ -1535,106 +1625,6 @@ export const siteData = {
           "level": 3,
           "title": "更新后的生命周期方法",
           "slug": "更新后的生命周期方法"
-        }
-      ]
-    },
-    {
-      "title": "JavaScript 的『预解释』与『变量提升』",
-      "frontmatter": {},
-      "regularPath": "/knowledge/hoisting.html",
-      "relativePath": "knowledge/hoisting.md",
-      "key": "v-f3518f36",
-      "path": "/knowledge/hoisting.html",
-      "headers": [
-        {
-          "level": 2,
-          "title": "前言",
-          "slug": "前言"
-        },
-        {
-          "level": 2,
-          "title": "从一个实例开始",
-          "slug": "从一个实例开始"
-        },
-        {
-          "level": 2,
-          "title": "avaScript 预解释",
-          "slug": "avascript-预解释"
-        },
-        {
-          "level": 2,
-          "title": "JavaScript 执行环境",
-          "slug": "javascript-执行环境"
-        },
-        {
-          "level": 2,
-          "title": "变量提升",
-          "slug": "变量提升"
-        },
-        {
-          "level": 2,
-          "title": "函数声明与函数表达式",
-          "slug": "函数声明与函数表达式"
-        },
-        {
-          "level": 2,
-          "title": "冲突处理",
-          "slug": "冲突处理"
-        },
-        {
-          "level": 2,
-          "title": "ES6 中的 let",
-          "slug": "es6-中的-let"
-        }
-      ]
-    },
-    {
-      "title": "HTML 基础",
-      "frontmatter": {},
-      "regularPath": "/knowledge/html.html",
-      "relativePath": "knowledge/html.md",
-      "key": "v-79eaae66",
-      "path": "/knowledge/html.html",
-      "headers": [
-        {
-          "level": 2,
-          "title": "HTML5 为什么只写  ？",
-          "slug": "html5-为什么只写-？"
-        },
-        {
-          "level": 2,
-          "title": "data- 属性的作用？",
-          "slug": "data-属性的作用？"
-        },
-        {
-          "level": 2,
-          "title": "HTML 全局属性（Global Attributes）有哪些？",
-          "slug": "html-全局属性（global-attributes）有哪些？"
-        },
-        {
-          "level": 2,
-          "title": "meta 有哪些常见的值？",
-          "slug": "meta-有哪些常见的值？"
-        },
-        {
-          "level": 2,
-          "title": "src 和 href 的区别？",
-          "slug": "src-和-href-的区别？"
-        },
-        {
-          "level": 2,
-          "title": "HTML5 离线缓存原理",
-          "slug": "html5-离线缓存原理"
-        },
-        {
-          "level": 3,
-          "title": "目录结构",
-          "slug": "目录结构"
-        },
-        {
-          "level": 3,
-          "title": "如何使用",
-          "slug": "如何使用"
         }
       ]
     },
@@ -1809,6 +1799,81 @@ export const siteData = {
       ]
     },
     {
+      "title": "HTML 基础",
+      "frontmatter": {},
+      "regularPath": "/knowledge/html.html",
+      "relativePath": "knowledge/html.md",
+      "key": "v-79eaae66",
+      "path": "/knowledge/html.html",
+      "headers": [
+        {
+          "level": 2,
+          "title": "HTML5 为什么只写  ？",
+          "slug": "html5-为什么只写-？"
+        },
+        {
+          "level": 2,
+          "title": "data- 属性的作用？",
+          "slug": "data-属性的作用？"
+        },
+        {
+          "level": 2,
+          "title": "HTML 全局属性（Global Attributes）有哪些？",
+          "slug": "html-全局属性（global-attributes）有哪些？"
+        },
+        {
+          "level": 2,
+          "title": "meta 有哪些常见的值？",
+          "slug": "meta-有哪些常见的值？"
+        },
+        {
+          "level": 2,
+          "title": "src 和 href 的区别？",
+          "slug": "src-和-href-的区别？"
+        },
+        {
+          "level": 2,
+          "title": "HTML5 离线缓存原理",
+          "slug": "html5-离线缓存原理"
+        },
+        {
+          "level": 3,
+          "title": "目录结构",
+          "slug": "目录结构"
+        },
+        {
+          "level": 3,
+          "title": "如何使用",
+          "slug": "如何使用"
+        }
+      ]
+    },
+    {
+      "title": "HTTP 笔试部分",
+      "frontmatter": {},
+      "regularPath": "/knowledge/httpWritten.html",
+      "relativePath": "knowledge/httpWritten.md",
+      "key": "v-42f01499",
+      "path": "/knowledge/httpWritten.html",
+      "headers": [
+        {
+          "level": 2,
+          "title": "缓存题",
+          "slug": "缓存题"
+        },
+        {
+          "level": 3,
+          "title": "问题一：当点击“重新访问 page 页”链接重新加载该页面后， head.png 如何二次加载？",
+          "slug": "问题一：当点击“重新访问-page-页”链接重新加载该页面后，-head-png-如何二次加载？"
+        },
+        {
+          "level": 3,
+          "title": "问题二：如果将上述信息中的 Cache-Control 设置为 private，那么结果又会如何呢？",
+          "slug": "问题二：如果将上述信息中的-cache-control-设置为-private，那么结果又会如何呢？"
+        }
+      ]
+    },
+    {
       "title": "HTTPS",
       "frontmatter": {},
       "regularPath": "/knowledge/https.html",
@@ -1865,6 +1930,36 @@ export const siteData = {
           "level": 2,
           "title": "如何劫持 https 的请求，提供思路",
           "slug": "如何劫持-https-的请求，提供思路"
+        }
+      ]
+    },
+    {
+      "title": "实现不可变数据",
+      "frontmatter": {},
+      "regularPath": "/knowledge/immutable.html",
+      "relativePath": "knowledge/immutable.md",
+      "key": "v-0adb5af9",
+      "path": "/knowledge/immutable.html",
+      "headers": [
+        {
+          "level": 2,
+          "title": "1.可变数据的副作用",
+          "slug": "_1-可变数据的副作用"
+        },
+        {
+          "level": 2,
+          "title": "2.不可变数据的解决方案",
+          "slug": "_2-不可变数据的解决方案"
+        },
+        {
+          "level": 2,
+          "title": "3.实现更简单的 immutable",
+          "slug": "_3-实现更简单的-immutable"
+        },
+        {
+          "level": 2,
+          "title": "总结",
+          "slug": "总结"
         }
       ]
     },
@@ -2039,36 +2134,6 @@ export const siteData = {
       ]
     },
     {
-      "title": "实现不可变数据",
-      "frontmatter": {},
-      "regularPath": "/knowledge/immutable.html",
-      "relativePath": "knowledge/immutable.md",
-      "key": "v-0adb5af9",
-      "path": "/knowledge/immutable.html",
-      "headers": [
-        {
-          "level": 2,
-          "title": "1.可变数据的副作用",
-          "slug": "_1-可变数据的副作用"
-        },
-        {
-          "level": 2,
-          "title": "2.不可变数据的解决方案",
-          "slug": "_2-不可变数据的解决方案"
-        },
-        {
-          "level": 2,
-          "title": "3.实现更简单的 immutable",
-          "slug": "_3-实现更简单的-immutable"
-        },
-        {
-          "level": 2,
-          "title": "总结",
-          "slug": "总结"
-        }
-      ]
-    },
-    {
       "title": "JavaScript 笔试部分",
       "frontmatter": {},
       "regularPath": "/knowledge/jsWritten.html",
@@ -2184,71 +2249,6 @@ export const siteData = {
       ]
     },
     {
-      "title": "DOM",
-      "frontmatter": {},
-      "regularPath": "/knowledge/dom.html",
-      "relativePath": "knowledge/dom.md",
-      "key": "v-182d8439",
-      "path": "/knowledge/dom.html",
-      "headers": [
-        {
-          "level": 2,
-          "title": "DOM 的事件模型是什么？",
-          "slug": "dom-的事件模型是什么？"
-        },
-        {
-          "level": 2,
-          "title": "DOM 的事件流是什么？",
-          "slug": "dom-的事件流是什么？"
-        },
-        {
-          "level": 3,
-          "title": "事件冒泡",
-          "slug": "事件冒泡"
-        },
-        {
-          "level": 3,
-          "title": "事件捕获",
-          "slug": "事件捕获"
-        },
-        {
-          "level": 3,
-          "title": "事件流",
-          "slug": "事件流"
-        },
-        {
-          "level": 2,
-          "title": "什么是事件委托",
-          "slug": "什么是事件委托"
-        }
-      ]
-    },
-    {
-      "title": "HTTP 笔试部分",
-      "frontmatter": {},
-      "regularPath": "/knowledge/httpWritten.html",
-      "relativePath": "knowledge/httpWritten.md",
-      "key": "v-42f01499",
-      "path": "/knowledge/httpWritten.html",
-      "headers": [
-        {
-          "level": 2,
-          "title": "缓存题",
-          "slug": "缓存题"
-        },
-        {
-          "level": 3,
-          "title": "问题一：当点击“重新访问 page 页”链接重新加载该页面后， head.png 如何二次加载？",
-          "slug": "问题一：当点击“重新访问-page-页”链接重新加载该页面后，-head-png-如何二次加载？"
-        },
-        {
-          "level": 3,
-          "title": "问题二：如果将上述信息中的 Cache-Control 设置为 private，那么结果又会如何呢？",
-          "slug": "问题二：如果将上述信息中的-cache-control-设置为-private，那么结果又会如何呢？"
-        }
-      ]
-    },
-    {
       "title": "前端性能优化-加载篇",
       "frontmatter": {},
       "regularPath": "/knowledge/load.html",
@@ -2319,12 +2319,114 @@ export const siteData = {
       ]
     },
     {
-      "title": "Node.js面试题",
+      "title": "JavaScript 内存管理",
       "frontmatter": {},
-      "regularPath": "/knowledge/node.html",
-      "relativePath": "knowledge/node.md",
-      "key": "v-121f889f",
-      "path": "/knowledge/node.html"
+      "regularPath": "/knowledge/memory.html",
+      "relativePath": "knowledge/memory.md",
+      "key": "v-214d67a1",
+      "path": "/knowledge/memory.html",
+      "headers": [
+        {
+          "level": 2,
+          "title": "前言",
+          "slug": "前言"
+        },
+        {
+          "level": 2,
+          "title": "内存模型",
+          "slug": "内存模型"
+        },
+        {
+          "level": 2,
+          "title": "生命周期",
+          "slug": "生命周期"
+        },
+        {
+          "level": 2,
+          "title": "内存回收",
+          "slug": "内存回收"
+        },
+        {
+          "level": 3,
+          "title": "1.标记清除",
+          "slug": "_1-标记清除"
+        },
+        {
+          "level": 3,
+          "title": "2.引用计数",
+          "slug": "_2-引用计数"
+        },
+        {
+          "level": 3,
+          "title": "V8 的内存分代",
+          "slug": "v8-的内存分代"
+        },
+        {
+          "level": 3,
+          "title": "Stop The World （全停顿）",
+          "slug": "stop-the-world-（全停顿）"
+        },
+        {
+          "level": 3,
+          "title": "Scavenge 算法",
+          "slug": "scavenge-算法"
+        },
+        {
+          "level": 3,
+          "title": "对象晋升",
+          "slug": "对象晋升"
+        },
+        {
+          "level": 3,
+          "title": "Mark-Sweep & Mark-Compact",
+          "slug": "mark-sweep-mark-compact"
+        },
+        {
+          "level": 3,
+          "title": "Incremental Marking（增量标记）",
+          "slug": "incremental-marking（增量标记）"
+        },
+        {
+          "level": 3,
+          "title": "lazy sweeping（延迟清理）",
+          "slug": "lazy-sweeping（延迟清理）"
+        },
+        {
+          "level": 2,
+          "title": "内存泄露",
+          "slug": "内存泄露"
+        },
+        {
+          "level": 3,
+          "title": "引起内存泄漏的几个禁忌",
+          "slug": "引起内存泄漏的几个禁忌"
+        },
+        {
+          "level": 3,
+          "title": "1.意外的全局变量",
+          "slug": "_1-意外的全局变量"
+        },
+        {
+          "level": 3,
+          "title": "2.被遗忘的计时器或回调函数",
+          "slug": "_2-被遗忘的计时器或回调函数"
+        },
+        {
+          "level": 3,
+          "title": "3.闭包",
+          "slug": "_3-闭包"
+        },
+        {
+          "level": 3,
+          "title": "4.没有清理的 DOM 元素引用",
+          "slug": "_4-没有清理的-dom-元素引用"
+        },
+        {
+          "level": 2,
+          "title": "四、内存泄漏的识别方法",
+          "slug": "四、内存泄漏的识别方法"
+        }
+      ]
     },
     {
       "title": "JavaScript 的运行机制",
@@ -2441,8 +2543,13 @@ export const siteData = {
         },
         {
           "level": 2,
-          "title": "mixin、hoc、render props、react-hooks 的优劣如何？",
-          "slug": "mixin、hoc、render-props、react-hooks-的优劣如何？"
+          "title": "React Hooks 优点",
+          "slug": "react-hooks-优点"
+        },
+        {
+          "level": 2,
+          "title": "React Hooks 缺陷",
+          "slug": "react-hooks-缺陷"
         },
         {
           "level": 2,
@@ -2466,6 +2573,26 @@ export const siteData = {
         },
         {
           "level": 2,
+          "title": "React合成事件和DOM原生事件",
+          "slug": "react合成事件和dom原生事件"
+        },
+        {
+          "level": 3,
+          "title": "先说一下结论",
+          "slug": "先说一下结论"
+        },
+        {
+          "level": 3,
+          "title": "响应顺序",
+          "slug": "响应顺序"
+        },
+        {
+          "level": 3,
+          "title": "阻止冒泡",
+          "slug": "阻止冒泡"
+        },
+        {
+          "level": 2,
           "title": "redux 与 mobx 的区别?",
           "slug": "redux-与-mobx-的区别"
         },
@@ -2480,6 +2607,59 @@ export const siteData = {
           "slug": "redux-异步中间件之间的优劣"
         }
       ]
+    },
+    {
+      "title": "Vue 的响应式系统",
+      "frontmatter": {},
+      "regularPath": "/knowledge/reactivity.html",
+      "relativePath": "knowledge/reactivity.md",
+      "key": "v-7595c25f",
+      "path": "/knowledge/reactivity.html",
+      "headers": [
+        {
+          "level": 2,
+          "title": "响应式系统",
+          "slug": "响应式系统"
+        },
+        {
+          "level": 2,
+          "title": "发布订阅中心",
+          "slug": "发布订阅中心"
+        },
+        {
+          "level": 2,
+          "title": "监听者的实现",
+          "slug": "监听者的实现"
+        },
+        {
+          "level": 2,
+          "title": "订阅者的实现",
+          "slug": "订阅者的实现"
+        },
+        {
+          "level": 2,
+          "title": "批量更新的实现",
+          "slug": "批量更新的实现"
+        },
+        {
+          "level": 2,
+          "title": "梳理",
+          "slug": "梳理"
+        },
+        {
+          "level": 2,
+          "title": "响应式系统并不是全部",
+          "slug": "响应式系统并不是全部"
+        }
+      ]
+    },
+    {
+      "title": "Node.js面试题",
+      "frontmatter": {},
+      "regularPath": "/knowledge/node.html",
+      "relativePath": "knowledge/node.md",
+      "key": "v-121f889f",
+      "path": "/knowledge/node.html"
     },
     {
       "title": "React-hooks 抽象组件",
@@ -2543,51 +2723,6 @@ export const siteData = {
           "level": 2,
           "title": "3 总结",
           "slug": "_3-总结"
-        }
-      ]
-    },
-    {
-      "title": "Vue 的响应式系统",
-      "frontmatter": {},
-      "regularPath": "/knowledge/reactivity.html",
-      "relativePath": "knowledge/reactivity.md",
-      "key": "v-7595c25f",
-      "path": "/knowledge/reactivity.html",
-      "headers": [
-        {
-          "level": 2,
-          "title": "响应式系统",
-          "slug": "响应式系统"
-        },
-        {
-          "level": 2,
-          "title": "发布订阅中心",
-          "slug": "发布订阅中心"
-        },
-        {
-          "level": 2,
-          "title": "监听者的实现",
-          "slug": "监听者的实现"
-        },
-        {
-          "level": 2,
-          "title": "订阅者的实现",
-          "slug": "订阅者的实现"
-        },
-        {
-          "level": 2,
-          "title": "批量更新的实现",
-          "slug": "批量更新的实现"
-        },
-        {
-          "level": 2,
-          "title": "梳理",
-          "slug": "梳理"
-        },
-        {
-          "level": 2,
-          "title": "响应式系统并不是全部",
-          "slug": "响应式系统并不是全部"
         }
       ]
     },
@@ -2673,76 +2808,6 @@ export const siteData = {
           "level": 3,
           "title": "总结",
           "slug": "总结"
-        }
-      ]
-    },
-    {
-      "title": "前端路由的实现",
-      "frontmatter": {},
-      "regularPath": "/knowledge/router.html",
-      "relativePath": "knowledge/router.md",
-      "key": "v-0b4cfdde",
-      "path": "/knowledge/router.html",
-      "headers": [
-        {
-          "level": 2,
-          "title": "前言",
-          "slug": "前言"
-        },
-        {
-          "level": 2,
-          "title": "1.hash 路由",
-          "slug": "_1-hash-路由"
-        },
-        {
-          "level": 3,
-          "title": "1.1 初始化 class",
-          "slug": "_1-1-初始化-class"
-        },
-        {
-          "level": 3,
-          "title": "1.2 实现路由 hash 储存与执行",
-          "slug": "_1-2-实现路由-hash-储存与执行"
-        },
-        {
-          "level": 3,
-          "title": "1.3 监听对应事件",
-          "slug": "_1-3-监听对应事件"
-        },
-        {
-          "level": 2,
-          "title": "2.增加回退功能",
-          "slug": "_2-增加回退功能"
-        },
-        {
-          "level": 3,
-          "title": "2.1 实现后退功能",
-          "slug": "_2-1-实现后退功能"
-        },
-        {
-          "level": 3,
-          "title": "2.2 完整实现 hash Router",
-          "slug": "_2-2-完整实现-hash-router"
-        },
-        {
-          "level": 2,
-          "title": "3. HTML5 新路由方案",
-          "slug": "_3-html5-新路由方案"
-        },
-        {
-          "level": 3,
-          "title": "3.1 History API",
-          "slug": "_3-1-history-api"
-        },
-        {
-          "level": 3,
-          "title": "3.2 新标准下路由的实现",
-          "slug": "_3-2-新标准下路由的实现"
-        },
-        {
-          "level": 2,
-          "title": "小结",
-          "slug": "小结"
         }
       ]
     },
@@ -2882,52 +2947,72 @@ export const siteData = {
       ]
     },
     {
-      "title": "setState 到底是异步的还是同步的?",
+      "title": "前端路由的实现",
       "frontmatter": {},
-      "regularPath": "/knowledge/setState.html",
-      "relativePath": "knowledge/setState.md",
-      "key": "v-687108f6",
-      "path": "/knowledge/setState.html",
+      "regularPath": "/knowledge/router.html",
+      "relativePath": "knowledge/router.md",
+      "key": "v-0b4cfdde",
+      "path": "/knowledge/router.html",
       "headers": [
         {
           "level": 2,
-          "title": "setState 真的是异步的吗 ？",
-          "slug": "setstate-真的是异步的吗-？"
+          "title": "前言",
+          "slug": "前言"
         },
         {
           "level": 2,
-          "title": "一、合成事件中的`setState`",
-          "slug": "一、合成事件中的setstate"
+          "title": "1.hash 路由",
+          "slug": "_1-hash-路由"
+        },
+        {
+          "level": 3,
+          "title": "1.1 初始化 class",
+          "slug": "_1-1-初始化-class"
+        },
+        {
+          "level": 3,
+          "title": "1.2 实现路由 hash 储存与执行",
+          "slug": "_1-2-实现路由-hash-储存与执行"
+        },
+        {
+          "level": 3,
+          "title": "1.3 监听对应事件",
+          "slug": "_1-3-监听对应事件"
         },
         {
           "level": 2,
-          "title": "二、生命周期函数中的`setState`",
-          "slug": "二、生命周期函数中的setstate"
+          "title": "2.增加回退功能",
+          "slug": "_2-增加回退功能"
+        },
+        {
+          "level": 3,
+          "title": "2.1 实现后退功能",
+          "slug": "_2-1-实现后退功能"
+        },
+        {
+          "level": 3,
+          "title": "2.2 完整实现 hash Router",
+          "slug": "_2-2-完整实现-hash-router"
         },
         {
           "level": 2,
-          "title": "三、原生事件中的`setState`",
-          "slug": "三、原生事件中的setstate"
+          "title": "3. HTML5 新路由方案",
+          "slug": "_3-html5-新路由方案"
+        },
+        {
+          "level": 3,
+          "title": "3.1 History API",
+          "slug": "_3-1-history-api"
+        },
+        {
+          "level": 3,
+          "title": "3.2 新标准下路由的实现",
+          "slug": "_3-2-新标准下路由的实现"
         },
         {
           "level": 2,
-          "title": "四、setTimeout 中的`setState`",
-          "slug": "四、settimeout-中的setstate"
-        },
-        {
-          "level": 2,
-          "title": "五、`setState`中的批量更新",
-          "slug": "五、setstate中的批量更新"
-        },
-        {
-          "level": 2,
-          "title": "最后看个 🌰",
-          "slug": "最后看个-🌰"
-        },
-        {
-          "level": 2,
-          "title": "总结 :",
-          "slug": "总结"
+          "title": "小结",
+          "slug": "小结"
         }
       ]
     },
@@ -2987,6 +3072,56 @@ export const siteData = {
       ]
     },
     {
+      "title": "setState 到底是异步的还是同步的?",
+      "frontmatter": {},
+      "regularPath": "/knowledge/setState.html",
+      "relativePath": "knowledge/setState.md",
+      "key": "v-687108f6",
+      "path": "/knowledge/setState.html",
+      "headers": [
+        {
+          "level": 2,
+          "title": "setState 真的是异步的吗 ？",
+          "slug": "setstate-真的是异步的吗-？"
+        },
+        {
+          "level": 2,
+          "title": "一、合成事件中的`setState`",
+          "slug": "一、合成事件中的setstate"
+        },
+        {
+          "level": 2,
+          "title": "二、生命周期函数中的`setState`",
+          "slug": "二、生命周期函数中的setstate"
+        },
+        {
+          "level": 2,
+          "title": "三、原生事件中的`setState`",
+          "slug": "三、原生事件中的setstate"
+        },
+        {
+          "level": 2,
+          "title": "四、setTimeout 中的`setState`",
+          "slug": "四、settimeout-中的setstate"
+        },
+        {
+          "level": 2,
+          "title": "五、`setState`中的批量更新",
+          "slug": "五、setstate中的批量更新"
+        },
+        {
+          "level": 2,
+          "title": "最后看个 🌰",
+          "slug": "最后看个-🌰"
+        },
+        {
+          "level": 2,
+          "title": "总结 :",
+          "slug": "总结"
+        }
+      ]
+    },
+    {
       "title": "TCP 面试题",
       "frontmatter": {},
       "regularPath": "/knowledge/tcp.html",
@@ -3038,6 +3173,56 @@ export const siteData = {
           "level": 2,
           "title": "讲一下四次握手？✨",
           "slug": "讲一下四次握手？✨"
+        }
+      ]
+    },
+    {
+      "title": "虚拟 DOM 原理",
+      "frontmatter": {},
+      "regularPath": "/knowledge/virtualDom.html",
+      "relativePath": "knowledge/virtualDom.md",
+      "key": "v-2e4f9896",
+      "path": "/knowledge/virtualDom.html",
+      "headers": [
+        {
+          "level": 2,
+          "title": "什么是 Virtual DOM",
+          "slug": "什么是-virtual-dom"
+        },
+        {
+          "level": 2,
+          "title": "为什么需要 Virtual DOM",
+          "slug": "为什么需要-virtual-dom"
+        },
+        {
+          "level": 2,
+          "title": "Virtual DOM 的关键要素",
+          "slug": "virtual-dom-的关键要素"
+        },
+        {
+          "level": 3,
+          "title": "Virtual DOM 的创建",
+          "slug": "virtual-dom-的创建"
+        },
+        {
+          "level": 3,
+          "title": "Virtual DOM Tree 的创建",
+          "slug": "virtual-dom-tree-的创建"
+        },
+        {
+          "level": 3,
+          "title": "Virtual DOM 的更新",
+          "slug": "virtual-dom-的更新"
+        },
+        {
+          "level": 3,
+          "title": "Virtual DOM 的 diff",
+          "slug": "virtual-dom-的-diff"
+        },
+        {
+          "level": 2,
+          "title": "Virtual DOM 的优化",
+          "slug": "virtual-dom-的优化"
         }
       ]
     },
@@ -3173,56 +3358,6 @@ export const siteData = {
           "level": 2,
           "title": "七、断开连接",
           "slug": "七、断开连接"
-        }
-      ]
-    },
-    {
-      "title": "虚拟 DOM 原理",
-      "frontmatter": {},
-      "regularPath": "/knowledge/virtualDom.html",
-      "relativePath": "knowledge/virtualDom.md",
-      "key": "v-2e4f9896",
-      "path": "/knowledge/virtualDom.html",
-      "headers": [
-        {
-          "level": 2,
-          "title": "什么是 Virtual DOM",
-          "slug": "什么是-virtual-dom"
-        },
-        {
-          "level": 2,
-          "title": "为什么需要 Virtual DOM",
-          "slug": "为什么需要-virtual-dom"
-        },
-        {
-          "level": 2,
-          "title": "Virtual DOM 的关键要素",
-          "slug": "virtual-dom-的关键要素"
-        },
-        {
-          "level": 3,
-          "title": "Virtual DOM 的创建",
-          "slug": "virtual-dom-的创建"
-        },
-        {
-          "level": 3,
-          "title": "Virtual DOM Tree 的创建",
-          "slug": "virtual-dom-tree-的创建"
-        },
-        {
-          "level": 3,
-          "title": "Virtual DOM 的更新",
-          "slug": "virtual-dom-的更新"
-        },
-        {
-          "level": 3,
-          "title": "Virtual DOM 的 diff",
-          "slug": "virtual-dom-的-diff"
-        },
-        {
-          "level": 2,
-          "title": "Virtual DOM 的优化",
-          "slug": "virtual-dom-的优化"
         }
       ]
     },
@@ -3392,51 +3527,6 @@ export const siteData = {
       ]
     },
     {
-      "title": "Webpack 模块机制",
-      "frontmatter": {},
-      "regularPath": "/knowledge/webpackMoudle.html",
-      "relativePath": "knowledge/webpackMoudle.md",
-      "key": "v-50fea499",
-      "path": "/knowledge/webpackMoudle.html",
-      "headers": [
-        {
-          "level": 3,
-          "title": "准备点材料",
-          "slug": "准备点材料"
-        },
-        {
-          "level": 3,
-          "title": "模块初始化函数",
-          "slug": "模块初始化函数"
-        },
-        {
-          "level": 3,
-          "title": "modules && webpack_exports****",
-          "slug": "modules-webpack-exports"
-        },
-        {
-          "level": 3,
-          "title": "模块 id",
-          "slug": "模块-id"
-        },
-        {
-          "level": 3,
-          "title": "require 函数",
-          "slug": "require-函数"
-        },
-        {
-          "level": 3,
-          "title": "最后，我们来改造一下 bundle.js",
-          "slug": "最后，我们来改造一下-bundle-js"
-        },
-        {
-          "level": 3,
-          "title": "总结",
-          "slug": "总结"
-        }
-      ]
-    },
-    {
       "title": "webpack loader 实现",
       "frontmatter": {},
       "regularPath": "/knowledge/webpackLoader.html",
@@ -3528,6 +3618,86 @@ export const siteData = {
           "level": 2,
           "title": "Talk is cheep",
           "slug": "talk-is-cheep"
+        },
+        {
+          "level": 2,
+          "title": "总结",
+          "slug": "总结"
+        }
+      ]
+    },
+    {
+      "title": "Webpack 模块机制",
+      "frontmatter": {},
+      "regularPath": "/knowledge/webpackMoudle.html",
+      "relativePath": "knowledge/webpackMoudle.md",
+      "key": "v-50fea499",
+      "path": "/knowledge/webpackMoudle.html",
+      "headers": [
+        {
+          "level": 3,
+          "title": "准备点材料",
+          "slug": "准备点材料"
+        },
+        {
+          "level": 3,
+          "title": "模块初始化函数",
+          "slug": "模块初始化函数"
+        },
+        {
+          "level": 3,
+          "title": "modules && webpack_exports****",
+          "slug": "modules-webpack-exports"
+        },
+        {
+          "level": 3,
+          "title": "模块 id",
+          "slug": "模块-id"
+        },
+        {
+          "level": 3,
+          "title": "require 函数",
+          "slug": "require-函数"
+        },
+        {
+          "level": 3,
+          "title": "最后，我们来改造一下 bundle.js",
+          "slug": "最后，我们来改造一下-bundle-js"
+        },
+        {
+          "level": 3,
+          "title": "总结",
+          "slug": "总结"
+        }
+      ]
+    },
+    {
+      "title": "webpack 插件化设计",
+      "frontmatter": {},
+      "regularPath": "/knowledge/webpackPluginDesign.html",
+      "relativePath": "knowledge/webpackPluginDesign.md",
+      "key": "v-190c22b9",
+      "path": "/knowledge/webpackPluginDesign.html",
+      "headers": [
+        {
+          "level": 2,
+          "title": "前言",
+          "slug": "前言"
+        },
+        {
+          "level": 2,
+          "title": "事件系统",
+          "slug": "事件系统"
+        },
+        {
+          "level": 2,
+          "title": "插件化设计",
+          "slug": "插件化设计"
+        },
+        {
+          "level": 2,
+          "title": "执行实例",
+          "slug": "执行实例"
         },
         {
           "level": 2,
@@ -3645,151 +3815,6 @@ export const siteData = {
           "slug": "编写插件"
         }
       ]
-    },
-    {
-      "title": "webpack 插件化设计",
-      "frontmatter": {},
-      "regularPath": "/knowledge/webpackPluginDesign.html",
-      "relativePath": "knowledge/webpackPluginDesign.md",
-      "key": "v-190c22b9",
-      "path": "/knowledge/webpackPluginDesign.html",
-      "headers": [
-        {
-          "level": 2,
-          "title": "前言",
-          "slug": "前言"
-        },
-        {
-          "level": 2,
-          "title": "事件系统",
-          "slug": "事件系统"
-        },
-        {
-          "level": 2,
-          "title": "插件化设计",
-          "slug": "插件化设计"
-        },
-        {
-          "level": 2,
-          "title": "执行实例",
-          "slug": "执行实例"
-        },
-        {
-          "level": 2,
-          "title": "总结",
-          "slug": "总结"
-        }
-      ]
-    },
-    {
-      "title": "JavaScript 内存管理",
-      "frontmatter": {},
-      "regularPath": "/knowledge/memory.html",
-      "relativePath": "knowledge/memory.md",
-      "key": "v-214d67a1",
-      "path": "/knowledge/memory.html",
-      "headers": [
-        {
-          "level": 2,
-          "title": "前言",
-          "slug": "前言"
-        },
-        {
-          "level": 2,
-          "title": "内存模型",
-          "slug": "内存模型"
-        },
-        {
-          "level": 2,
-          "title": "生命周期",
-          "slug": "生命周期"
-        },
-        {
-          "level": 2,
-          "title": "内存回收",
-          "slug": "内存回收"
-        },
-        {
-          "level": 3,
-          "title": "1.标记清除",
-          "slug": "_1-标记清除"
-        },
-        {
-          "level": 3,
-          "title": "2.引用计数",
-          "slug": "_2-引用计数"
-        },
-        {
-          "level": 3,
-          "title": "V8 的内存分代",
-          "slug": "v8-的内存分代"
-        },
-        {
-          "level": 3,
-          "title": "Stop The World （全停顿）",
-          "slug": "stop-the-world-（全停顿）"
-        },
-        {
-          "level": 3,
-          "title": "Scavenge 算法",
-          "slug": "scavenge-算法"
-        },
-        {
-          "level": 3,
-          "title": "对象晋升",
-          "slug": "对象晋升"
-        },
-        {
-          "level": 3,
-          "title": "Mark-Sweep & Mark-Compact",
-          "slug": "mark-sweep-mark-compact"
-        },
-        {
-          "level": 3,
-          "title": "Incremental Marking（增量标记）",
-          "slug": "incremental-marking（增量标记）"
-        },
-        {
-          "level": 3,
-          "title": "lazy sweeping（延迟清理）",
-          "slug": "lazy-sweeping（延迟清理）"
-        },
-        {
-          "level": 2,
-          "title": "内存泄露",
-          "slug": "内存泄露"
-        },
-        {
-          "level": 3,
-          "title": "引起内存泄漏的几个禁忌",
-          "slug": "引起内存泄漏的几个禁忌"
-        },
-        {
-          "level": 3,
-          "title": "1.意外的全局变量",
-          "slug": "_1-意外的全局变量"
-        },
-        {
-          "level": 3,
-          "title": "2.被遗忘的计时器或回调函数",
-          "slug": "_2-被遗忘的计时器或回调函数"
-        },
-        {
-          "level": 3,
-          "title": "3.闭包",
-          "slug": "_3-闭包"
-        },
-        {
-          "level": 3,
-          "title": "4.没有清理的 DOM 元素引用",
-          "slug": "_4-没有清理的-dom-元素引用"
-        },
-        {
-          "level": 2,
-          "title": "四、内存泄漏的识别方法",
-          "slug": "四、内存泄漏的识别方法"
-        }
-      ]
     }
   ],
   "themeConfig": {
@@ -3882,7 +3907,6 @@ export const siteData = {
                 "devsProxy",
                 "setState",
                 "router",
-                "redux",
                 "fiber",
                 "abstract",
                 "reactHook"
