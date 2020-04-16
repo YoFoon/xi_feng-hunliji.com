@@ -1,6 +1,6 @@
 import Vue from 'vue'
-Vue.component("OtherComponent", () => import("/Users/yofoon/Documents/mayf/FE-FACE/docs/.vuepress/components/OtherComponent"))
 Vue.component("UpgradePath", () => import("/Users/yofoon/Documents/mayf/FE-FACE/docs/.vuepress/components/UpgradePath"))
+Vue.component("OtherComponent", () => import("/Users/yofoon/Documents/mayf/FE-FACE/docs/.vuepress/components/OtherComponent"))
 Vue.component("demo-1", () => import("/Users/yofoon/Documents/mayf/FE-FACE/docs/.vuepress/components/demo-1"))
 Vue.component("svg-container", () => import("/Users/yofoon/Documents/mayf/FE-FACE/docs/.vuepress/components/svg-container"))
 Vue.component("Foo-Bar", () => import("/Users/yofoon/Documents/mayf/FE-FACE/docs/.vuepress/components/Foo/Bar"))

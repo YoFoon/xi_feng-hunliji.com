@@ -1,12 +1,8 @@
-# JavaScript 笔试部分
+# JS 手写源码
 
 ## 实现防抖函数（debounce）
 
 防抖函数原理：在事件被触发 n 秒后再执行回调，如果在这 n 秒内又被触发，则重新计时。
-
-那么与节流函数的区别直接看这个动画实现即可。
-
-<iframe src="https://codesandbox.io/embed/static-ce05g?fontsize=14" title="static" allow="geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
 
 手写简化版:
 
@@ -27,8 +23,14 @@ const debounce = (fn, delay) => {
 
 - 按钮提交场景：防止多次提交按钮，只执行最后提交的一次
 - 服务端验证场景：表单验证需要服务端配合，只执行一段连续的输入事件的最后一次，还有搜索联想词功能类似
+  结合实例：滚动防抖
 
-生存环境请用 lodash.debounce
+```
+function realFunc(){
+    console.log("Success");
+}
+window.addEventListener('scroll',debounce(realFunc,500));
+```
 
 ## 实现节流函数（throttle）
 
@@ -59,112 +61,22 @@ const throttle = (fn, delay = 500) => {
 
 ## 深克隆（deepclone）
 
-简单版：
-
-```javascript
-const newObj = JSON.parse(JSON.stringify(oldObj))
 ```
-
-局限性：
-
-1. 他无法实现对函数 、RegExp 等特殊对象的克隆
-
-2. 会抛弃对象的 constructor,所有的构造函数会指向 Object
-
-3. 对象有循环引用,会报错
-
-面试版:
-
-```js
-/**
- * deep clone
- * @param  {[type]} parent object 需要进行克隆的对象
- * @return {[type]}        深克隆后的对象
- */
-const clone = parent => {
-  // 判断类型
-  const isType = (obj, type) => {
-    if (typeof obj !== 'object') return false
-    const typeString = Object.prototype.toString.call(obj)
-    let flag
-    switch (type) {
-      case 'Array':
-        flag = typeString === '[object Array]'
-        break
-      case 'Date':
-        flag = typeString === '[object Date]'
-        break
-      case 'RegExp':
-        flag = typeString === '[object RegExp]'
-        break
-      default:
-        flag = false
+function clone(obj){
+    //判断是否是简单数据类型，
+  if(typeof obj == "object"){
+    //复杂数据类型
+    var result = obj.constructor == Array ? [] : {};
+    for(let i in obj){
+      result[i] = typeof obj[i] == "object" ? clone(obj[i]) : obj[i];
     }
-    return flag
+  }else {
+    //简单数据类型 直接 == 赋值
+    var result = obj;
   }
-
-  // 处理正则
-  const getRegExp = re => {
-    var flags = ''
-    if (re.global) flags += 'g'
-    if (re.ignoreCase) flags += 'i'
-    if (re.multiline) flags += 'm'
-    return flags
-  }
-  // 维护两个储存循环引用的数组
-  const parents = []
-  const children = []
-
-  const _clone = parent => {
-    if (parent === null) return null
-    if (typeof parent !== 'object') return parent
-
-    let child, proto
-
-    if (isType(parent, 'Array')) {
-      // 对数组做特殊处理
-      child = []
-    } else if (isType(parent, 'RegExp')) {
-      // 对正则对象做特殊处理
-      child = new RegExp(parent.source, getRegExp(parent))
-      if (parent.lastIndex) child.lastIndex = parent.lastIndex
-    } else if (isType(parent, 'Date')) {
-      // 对Date对象做特殊处理
-      child = new Date(parent.getTime())
-    } else {
-      // 处理对象原型
-      proto = Object.getPrototypeOf(parent)
-      // 利用Object.create切断原型链
-      child = Object.create(proto)
-    }
-
-    // 处理循环引用
-    const index = parents.indexOf(parent)
-
-    if (index != -1) {
-      // 如果父数组存在本对象,说明之前已经被引用过,直接返回此对象
-      return children[index]
-    }
-    parents.push(parent)
-    children.push(child)
-
-    for (let i in parent) {
-      // 递归
-      child[i] = _clone(parent[i])
-    }
-
-    return child
-  }
-  return _clone(parent)
+  return result;
 }
 ```
-
-局限性:
-
-1. 一些特殊情况没有处理: 例如 Buffer 对象、Promise、Set、Map
-2. 另外对于确保没有循环引用的对象，我们可以省去对循环引用的特殊处理，因为这很消耗时间
-
-> 原理详解[实现深克隆](#deepclone)
 
 ## 实现 Event(event bus)
 
@@ -182,106 +94,36 @@ class EventEmeitter {
 
 // 触发名为type的事件
 EventEmeitter.prototype.emit = function(type, ...args) {
-  let handler
   // 从储存事件键值对的this._events中获取对应事件回调函数
-  handler = this._events.get(type)
-  if (args.length > 0) {
-    handler.apply(this, args)
-  } else {
-    handler.call(this)
+  const handlers = this._events.get(type)
+  if (!handles) {
+    return
   }
-  return true
-}
-
-// 监听名为type的事件
-EventEmeitter.prototype.addListener = function(type, fn) {
-  // 将type事件以及对应的fn函数放入this._events中储存
-  if (!this._events.get(type)) {
-    this._events.set(type, fn)
-  }
-}
-```
-
-面试版：
-
-```js
-class EventEmeitter {
-  constructor() {
-    this._events = this._events || new Map() // 储存事件/回调键值对
-    this._maxListeners = this._maxListeners || 10 // 设立监听上限
-  }
-}
-
-// 触发名为type的事件
-EventEmeitter.prototype.emit = function(type, ...args) {
-  let handler
-  handler = this._events.get(type)
-  if (Array.isArray(handler)) {
-    // 如果是一个数组说明有多个监听者,需要依次此触发里面的函数
-    for (let i = 0; i < handler.length; i++) {
-      if (args.length > 0) {
-        handler[i].apply(this, args)
-      } else {
-        handler[i].call(this)
-      }
-    }
-  } else {
-    // 单个函数的情况我们直接触发即可
+  for (let handle of handles) {
     if (args.length > 0) {
       handler.apply(this, args)
     } else {
       handler.call(this)
     }
   }
-
   return true
 }
 
-// 监听名为type的事件
 EventEmeitter.prototype.addListener = function(type, fn) {
-  const handler = this._events.get(type) // 获取对应事件名称的函数清单
-  if (!handler) {
-    this._events.set(type, fn)
-  } else if (handler && typeof handler === 'function') {
-    // 如果handler是函数说明只有一个监听者
-    this._events.set(type, [handler, fn]) // 多个监听者我们需要用数组储存
-  } else {
-    handler.push(fn) // 已经有多个监听者,那么直接往数组里push函数即可
+  if (!this._events[type]) {
+    this._events[type] = []
   }
+  this._events[type].push(fn)
 }
-
 EventEmeitter.prototype.removeListener = function(type, fn) {
-  const handler = this._events.get(type) // 获取对应事件名称的函数清单
-
-  // 如果是函数,说明只被监听了一次
-  if (handler && typeof handler === 'function') {
-    this._events.delete(type, fn)
+  if (!fn) {
+    this.handles.length = 0
   } else {
-    let postion
-    // 如果handler是数组,说明被监听多次要找到对应的函数
-    for (let i = 0; i < handler.length; i++) {
-      if (handler[i] === fn) {
-        postion = i
-      } else {
-        postion = -1
-      }
-    }
-    // 如果找到匹配的函数,从数组中清除
-    if (postion !== -1) {
-      // 找到数组对应的位置,直接清除此回调
-      handler.splice(postion, 1)
-      // 如果清除后只有一个函数,那么取消数组,以函数形式保存
-      if (handler.length === 1) {
-        this._events.set(type, handler[0])
-      }
-    } else {
-      return this
-    }
+    let pos = this.handles[type].indexOf(fn)
+    pos >= 0 && this.handles[type].splice(pos, 1)
   }
 }
 ```
-
-> 实现具体过程和思路见[实现 event](#event)
 
 ## 实现 instanceOf
 
@@ -305,23 +147,23 @@ function instance_of(L, R) {
 
 new 操作符做了这些事：
 
-- 它创建了一个全新的对象
-- 它会被执行[[Prototype]]（也就是**proto**）链接
-- 它使 this 指向新创建的对象
-- 通过 new 创建的每个对象将最终被[[Prototype]]链接到这个函数的 prototype 对象上
-- 如果函数没有返回对象类型 Object(包含 Functoin, Array, Date, RegExg, Error)，那么 new 表达式中的函数调用将返回该对象引用
+- 函数接受不定量的参数，第一个参数为构造函数，接下来的参数被构造函数使用
+- 内部创建一个空对象 obj
+- obj 对象需要访问到构造函数原型链上的属性,将 obj.proto = Fn.prototype
+- 将 obj 绑定到构造函数上，并且传入剩余的参数
+- 判断构造函数返回值是否为对象，如果为对象就使用构造函数返回的值，否则使用 obj，这样就实现了忽略构造函数返回的原始值
 
 ```js
-// objectFactory(name, 'cxk', '18')
-function objectFactory() {
-  const obj = new Object()
-  const Constructor = [].shift.call(arguments)
-
-  obj.__proto__ = Constructor.prototype
-
-  const ret = Constructor.apply(obj, arguments)
-
-  return typeof ret === 'object' ? ret : obj
+/**
+ * 创建一个new操作符
+ * @param {*} Fn 构造函数
+ * @param  {...any} args 忘构造函数中传的参数
+ */
+function createNew(Fn, ...args) {
+  let obj = {} // 创建一个对象，因为new操作符会返回一个对象
+  obj.__proto__ = Fn.prototype
+  let result = Fn.apply(obj, args) // 将构造函数中的this指向这个对象，并传递参数
+  return result instanceof Object ? result : obj
 }
 ```
 
@@ -337,21 +179,37 @@ call 做了什么:
 ```js
 // 模拟 call bar.mycall(null);
 //实现一个call方法：
-Function.prototype.myCall = function(context) {
+Function.prototype.myCall = function(context = window) {
   //此处没有考虑context非object情况
+  console.log(this)
   context.fn = this
-  let args = []
-  for (let i = 1, len = arguments.length; i < len; i++) {
-    args.push(arguments[i])
-  }
-  context.fn(...args)
-  let result = context.fn(...args)
-  delete context.fn
+  let args = [...arguments].slice(1)
+  let result = content.fn(...args)
+  delete content.fn
   return result
 }
 ```
 
-> 具体实现参考[JavaScript 深入之 call 和 apply 的模拟实现 ](https://github.com/mqyqingfeng/Blog/issues/11)
+曾经一直不明便怎么 call，直到后来我看到了这么一段解释
+
+```js
+let foo = {
+  value: 1,
+}
+function bar() {
+  console.log(this.value)
+}
+bar.myCall(foo) // 1
+
+// 这个call就等价于
+let foo = {
+  value: 1,
+  bar: function() {
+    console.log(this.value)
+  },
+}
+foo.bar() // 1
+```
 
 ## 实现 apply 方法
 
@@ -359,21 +217,15 @@ apply 原理与 call 很相似，不多赘述
 
 ```js
 // 模拟 apply
-Function.prototype.myapply = function(context, arr) {
-  var context = Object(context) || window
+Function.prototype.myApply = function(context = window) {
   context.fn = this
-
-  var result
-  if (!arr) {
-    result = context.fn()
+  let result
+  // 判断是否有第二个参数
+  if (arguments[1]) {
+    result = context.fn(...arguments[1])
   } else {
-    var args = []
-    for (var i = 0, len = arr.length; i < len; i++) {
-      args.push('arr[' + i + ']')
-    }
-    result = eval('context.fn(' + args + ')')
+    result = context.fn()
   }
-
   delete context.fn
   return result
 }
@@ -381,48 +233,22 @@ Function.prototype.myapply = function(context, arr) {
 
 ## 实现 bind
 
-实现 bind 要做什么
-
-- 返回一个函数，绑定 this，传递预置参数
-- bind 返回的函数可以作为构造函数使用。故作为构造函数时应使得 this 失效，但是传入的参数依然有效
+- bind 方法会创建一个新函数。
+- 当这个新函数被调用时，bind() 的第一个参数将作为它运行时的 this，之后的一序列参数将会在传递的实参前传入作为它的参数
 
 ```js
-// mdn的实现
-if (!Function.prototype.bind) {
-  Function.prototype.bind = function(oThis) {
-    if (typeof this !== 'function') {
-      // closest thing possible to the ECMAScript 5
-      // internal IsCallable function
-      throw new TypeError('Function.prototype.bind - what is trying to be bound is not callable')
+Function.prototype.myBind = function(context = window) {
+  let _this = this
+  let args = [...arguments].slice(1)
+  return function Fn() {
+    if (this instanceof Fn) {
+      return _this.apply(this, [...args, ...arguments])
+    } else {
+      return _this.apply(context, [...args, ...arguments])
     }
-
-    var aArgs = Array.prototype.slice.call(arguments, 1),
-      fToBind = this,
-      fNOP = function() {},
-      fBound = function() {
-        // this instanceof fBound === true时,说明返回的fBound被当做new的构造函数调用
-        return fToBind.apply(
-          this instanceof fBound ? this : oThis,
-          // 获取调用时(fBound)的传参.bind 返回的函数入参往往是这么传递的
-          aArgs.concat(Array.prototype.slice.call(arguments))
-        )
-      }
-
-    // 维护原型关系
-    if (this.prototype) {
-      // Function.prototype doesn't have a prototype property
-      fNOP.prototype = this.prototype
-    }
-    // 下行的代码使fBound.prototype是fNOP的实例,因此
-    // 返回的fBound若作为new的构造函数,new生成的新对象作为this传入fBound,新对象的__proto__就是fNOP的实例
-    fBound.prototype = new fNOP()
-
-    return fBound
   }
 }
 ```
-
-> 详解请移步[JavaScript 深入之 bind 的模拟实现 #12](https://github.com/mqyqingfeng/Blog/issues/12)
 
 ## 模拟 Object.create
 
@@ -483,9 +309,48 @@ var json = '{"name":"cxk", "age":25}'
 var obj = eval('(' + json + ')')
 ```
 
-此方法属于黑魔法，极易容易被 xss 攻击，还有一种`new Function`大同小异。
+## 实现 JSONP
 
-简单的教程看这个[半小时实现一个 JSON 解析器](https://zhuanlan.zhihu.com/p/28049617)
+![jsonp](https://qnm.hunliji.com/Flt-bUeplxt1K9UfpnvhrzyCWZOG)
+
+```js
+function JSONP({ url, params, time, callbackKey, callback }) {
+  // 在参数里制定 callback 的名字
+  params = params || {}
+  params[callbackKey] = 'jsonpCallback'
+  // 预留 callback
+  window.jsonpCallback = callback
+  // 拼接参数字符串
+  const paramKeys = Object.keys(params)
+  const paramString = paramKeys.map((key) => `${key}=${params[key]}`).join('&')
+  // 插入 DOM 元素
+  const script = document.createElement('script')
+  script.setAttribute('src', `${url}?${paramString}`)
+  document.body.appendChild(script)
+
+  //超时处理
+  if (time) {
+    setTimeout(function() {
+      window.jsonpCallback = null
+      script.parentNode.removeChild(script)
+      // fail && fail({ message: "超时" });
+    }, time)
+  }
+}
+
+JSONP({
+  url: 'http://s.weibo.com/ajax/jsonp/suggestion',
+  params: {
+    key: 'test',
+  },
+  time: 100,
+  // fail: (err) => console.log(err),
+  callbackKey: '_cb',
+  callback(result) {
+    console.log(result.data)
+  },
+})
+```
 
 ## 实现 Promise
 
@@ -651,7 +516,7 @@ PromisePolyfill.all = function(promises) {
     const result = []
     let cnt = 0
     for (let i = 0; i < promises.length; ++i) {
-      promises[i].then(value => {
+      promises[i].then((value) => {
         cnt++
         result[i] = value
         if (cnt === promises.length) resolve(result)
