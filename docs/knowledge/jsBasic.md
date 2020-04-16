@@ -15,7 +15,6 @@
   - [类型转换的规则有哪些？](#类型转换的规则有哪些？)
   - [类型转换的原理是什么？](#类型转换的原理是什么？)
 - 2. js 机制
-  - [解释下变量提升？✨](#解释下变量提升？✨)
   - [一段 JavaScript 代码是如何执行的？✨](#一段JavaScript代码是如何执行的？✨)
   - [JavaScript 的作用域链理解吗？✨](#JavaScript的作用域链理解吗？✨)
   - [谈一谈你对 this 的了解？✨](#谈一谈你对this的了解？✨)
@@ -27,43 +26,6 @@
 - 4. 异步
   - [async/await 是什么？](#async/await是什么？)
   - [async/await 相比于 Promise 的优势？](#async/await相比于Promise的优势？)
-
-## 解释下变量提升？✨
-
-JavaScript 引擎的工作方式是，先解析代码，获取所有被声明的变量，然后再一行一行地运行。这造成的结果，就是所有的变量的声明语句，都会被提升到代码的头部，这就叫做变量提升（hoisting）。
-
-```js
-console.log(a) // undefined
-
-var a = 1
-
-function b() {
-  console.log(a)
-}
-b() // 1
-```
-
-上面的代码实际执行顺序是这样的:
-
-第一步： 引擎将`var a = 1`拆解为`var a = undefined`和 `a = 1`，并将`var a = undefined`放到最顶端，`a = 1`还在原来的位置
-
-这样一来代码就是这样:
-
-```js
-var a = undefined
-console.log(a) // undefined
-
-a = 1
-
-function b() {
-  console.log(a)
-}
-b() // 1
-```
-
-第二步就是执行，因此 js 引擎一行一行从上往下执行就造成了当前的结果，这就叫变量提升。
-
-> 原理详解请移步,[预解释与变量提升](hoisting.md)
 
 ## 一段 JavaScript 代码是如何执行的？✨
 
@@ -365,7 +327,7 @@ function DefaultString(x) {
 var person = {
   name: 'Messi',
   age: 29,
-  profession: 'football player'
+  profession: 'football player',
 }
 console.log(person.hasOwnProperty('name')) //true
 console.log(person.hasOwnProperty('hasOwnProperty')) //false
@@ -431,7 +393,7 @@ function f() {
 
 var obj = {
   name: 'Messi',
-  f: f
+  f: f,
 }
 
 obj.f() //被调用的位置恰好被对象obj拥有，因此结果是Messi
@@ -446,11 +408,11 @@ function f() {
   console.log(this.name)
 }
 var obj = {
-  name: 'Messi'
+  name: 'Messi',
 }
 
 var obj1 = {
-  name: 'Bale'
+  name: 'Bale',
 }
 
 f.bind(obj)() //Messi ,由于bind将obj绑定到f函数上后返回一个新函数,因此需要再在后面加上括号进行执行,这是bind与apply和call的区别
@@ -484,7 +446,7 @@ const obj = {
     return () => {
       console.log(this === obj)
     }
-  }
+  },
 }
 ```
 
@@ -498,7 +460,7 @@ var obj = {
     return function() {
       console.log(_this === obj)
     }
-  }
+  },
 }
 ```
 
@@ -551,7 +513,7 @@ console.log(a) // 1
 ```javascript
 var a = {
   a: 1,
-  b: 2
+  b: 2,
 }
 function test(x) {
   x.a = 10
@@ -568,7 +530,7 @@ console.log(a) // { a: 10, b: 2 }
 ```javascript
 var a = {
   a: 1,
-  b: 2
+  b: 2,
 }
 function test(x) {
   x = 10

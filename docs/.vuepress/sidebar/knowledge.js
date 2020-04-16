@@ -27,7 +27,7 @@ module.exports = [
   {
     title: '常用算法',
     collapsable: true,
-    children: ['algorithm', 'string'],
+    children: ['algorithm', 'string', 'tree'],
   },
   {
     title: '前端框架',
