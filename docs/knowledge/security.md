@@ -1,445 +1,442 @@
-# 前端安全面试题
+# 前端安全
 
-## 有哪些可能引起前端安全的的问题?
+## 一、XSS
 
-- 跨站脚本 (Cross-Site Scripting, XSS): 一种代码注入方式, 为了与 CSS 区分所以被称作 XSS. 早期常见于网络论坛, 起因是网站没有对用户的输入进行严格的限制, 使得攻击者可以将脚本上传到帖子让其他人浏览到有恶意脚本的页面, 其注入方式很简单包括但不限于 JavaScript / VBScript / CSS / Flash 等
-- iframe 的滥用: iframe 中的内容是由第三方来提供的，默认情况下他们不受我们的控制，他们可以在 iframe 中运行 JavaScirpt 脚本、Flash 插件、弹出对话框等等，这可能会破坏前端用户体验
-- 跨站点请求伪造（Cross-Site Request Forgeries，CSRF）: 指攻击者通过设置好的陷阱，强制对已完成认证的用户进行非预期的个人信息或设定信息等某些状态更新，属于被动攻击
-- 恶意第三方库: 无论是后端服务器应用还是前端应用开发，绝大多数时候我们都是在借助开发框架和各种类库进行快速开发,一旦第三方库被植入恶意代码很容易引起安全问题,比如 event-stream 的恶意代码事件,2018 年 11 月 21 日，名为 FallingSnow 的用户在知名 JavaScript 应用库 event-stream 在 github Issuse 中发布了针对植入的恶意代码的疑问，表示 event-stream 中存在用于窃取用户数字钱包的恶意代码
+XSS (Cross-Site Scripting)，跨站脚本攻击，因为缩写和 CSS 重叠，所以只能叫 XSS。跨站脚本攻击是指通过存在安全漏洞的 Web 网站注册用户的浏览器内运行非法的 HTML 标签或 JavaScript 进行的一种攻击。
 
-## XSS 分为哪几类?
+跨站脚本攻击有可能造成以下影响:
 
-根据攻击的来源，XSS 攻击可分为存储型、反射型和 DOM 型三种。
+- 利用虚假输入表单骗取用户个人信息。
+- 利用脚本窃取用户的 Cookie 值，被害者在不知情的情况下，帮助攻击者发送恶意请求。
+- 显示伪造的文章或图片。
 
-- 存储区：恶意代码存放的位置。
-- 插入点：由谁取得恶意代码，并插入到网页上。
+**XSS 的原理是恶意攻击者往 Web 页面里插入恶意可执行网页脚本代码，当用户浏览该页之时，嵌入其中 Web 里面的脚本代码会被执行，从而可以达到攻击者盗取用户信息或其他侵犯用户安全隐私的目的**。
 
-### 存储型 XSS
+XSS 的攻击方式千变万化，但还是可以大致细分为几种类型。
 
-存储型 XSS 的攻击步骤：
+### 1.非持久型 XSS（反射型 XSS ）
 
-1. 攻击者将恶意代码提交到目标网站的数据库中。
-2. 用户打开目标网站时，网站服务端将恶意代码从数据库取出，拼接在 HTML 中返回给浏览器。
-3. 用户浏览器接收到响应后解析执行，混在其中的恶意代码也被执行。
-4. 恶意代码窃取用户数据并发送到攻击者的网站，或者冒充用户的行为，调用目标网站接口执行攻击者指定的操作。
+非持久型 XSS 漏洞，一般是通过给别人发送**带有恶意脚本代码参数的 URL**，当 URL 地址被打开时，特有的恶意代码参数被 HTML 解析、执行。
 
-这种攻击常见于带有用户保存数据的网站功能，如论坛发帖、商品评论、用户私信等。
+![img](https://qnm.hunliji.com/Fu7P4PT_yA_XLMGBEThShVGOg2MM)
 
-### 反射型 XSS
+举一个例子，比如页面中包含有以下代码：
 
-反射型 XSS 的攻击步骤：
-
-1. 攻击者构造出特殊的 URL，其中包含恶意代码。
-2. 用户打开带有恶意代码的 URL 时，网站服务端将恶意代码从 URL 中取出，拼接在 HTML 中返回给浏览器。
-3. 用户浏览器接收到响应后解析执行，混在其中的恶意代码也被执行。
-4. 恶意代码窃取用户数据并发送到攻击者的网站，或者冒充用户的行为，调用目标网站接口执行攻击者指定的操作。
-
-反射型 XSS 跟存储型 XSS 的区别是：存储型 XSS 的恶意代码存在数据库里，反射型 XSS 的恶意代码存在 URL 里。
-
-反射型 XSS 漏洞常见于通过 URL 传递参数的功能，如网站搜索、跳转等。
-
-由于需要用户主动打开恶意的 URL 才能生效，攻击者往往会结合多种手段诱导用户点击。
-
-POST 的内容也可以触发反射型 XSS，只不过其触发条件比较苛刻（需要构造表单提交页面，并引导用户点击），所以非常少见。
-
-### DOM 型 XSS
-
-DOM 型 XSS 的攻击步骤：
-
-1. 攻击者构造出特殊的 URL，其中包含恶意代码。
-2. 用户打开带有恶意代码的 URL。
-3. 用户浏览器接收到响应后解析执行，前端 JavaScript 取出 URL 中的恶意代码并执行。
-4. 恶意代码窃取用户数据并发送到攻击者的网站，或者冒充用户的行为，调用目标网站接口执行攻击者指定的操作。
-
-DOM 型 XSS 跟前两种 XSS 的区别：DOM 型 XSS 攻击中，取出和执行恶意代码由浏览器端完成，属于前端 JavaScript 自身的安全漏洞，而其他两种 XSS 都属于服务端的安全漏洞。
-
-## 如何预防 XSS?
-
-XSS 攻击有两大要素：
-
-1. 攻击者提交恶意代码。
-2. 浏览器执行恶意代码。
-
-针对第一个要素：我们是否能够在用户输入的过程，过滤掉用户输入的恶意代码呢？
-
-### 输入过滤
-
-在用户提交时，由前端过滤输入，然后提交到后端。这样做是否可行呢？
-
-答案是不可行。一旦攻击者绕过前端过滤，直接构造请求，就可以提交恶意代码了。
-
-那么，换一个过滤时机：后端在写入数据库前，对输入进行过滤，然后把“安全的”内容，返回给前端。这样是否可行呢？
-
-我们举一个例子，一个正常的用户输入了  `5 < 7`  这个内容，在写入数据库前，被转义，变成了  `5 &lt; 7`。
-
-问题是：在提交阶段，我们并不确定内容要输出到哪里。
-
-这里的“并不确定内容要输出到哪里”有两层含义：
-
-1. 用户的输入内容可能同时提供给前端和客户端，而一旦经过了  `escapeHTML()`，客户端显示的内容就变成了乱码( `5 &lt; 7` )。
-2. 在前端中，不同的位置所需的编码也不同。
-
-- 当  `5 &lt; 7`  作为 HTML 拼接页面时，可以正常显示：
-
-```html
-<div title="comment">5 &lt; 7</div>
 ```
-
-- 当  `5 &lt; 7`  通过 Ajax 返回，然后赋值给 JavaScript 的变量时，前端得到的字符串就是转义后的字符。这个内容不能直接用于 Vue 等模板的展示，也不能直接用于内容长度计算。不能用于标题、alert 等
-
-所以，输入侧过滤能够在某些情况下解决特定的 XSS 问题，但会引入很大的不确定性和乱码问题。在防范 XSS 攻击时应避免此类方法
-
-当然，对于明确的输入类型，例如数字、URL、电话号码、邮件地址等等内容，进行输入过滤还是必要的
-
-既然输入过滤并非完全可靠，我们就要通过“防止浏览器执行恶意代码”来防范 XSS。这部分分为两类：
-
-- 防止 HTML 中出现注入
-- 防止 JavaScript 执行时，执行恶意代码
-
-### 预防存储型和反射型 XSS 攻击
-
-存储型和反射型 XSS 都是在服务端取出恶意代码后，插入到响应 HTML 里的，攻击者刻意编写的“数据”被内嵌到“代码”中，被浏览器所执行。
-
-预防这两种漏洞，有两种常见做法：
-
-- 改成纯前端渲染，把代码和数据分隔开。
-- 对 HTML 做充分转义。
-
-#### 纯前端渲染
-
-纯前端渲染的过程：
-
-1. 浏览器先加载一个静态 HTML，此 HTML 中不包含任何跟业务相关的数据。
-2. 然后浏览器执行 HTML 中的 JavaScript。
-3. JavaScript 通过 Ajax 加载业务数据，调用 DOM API 更新到页面上。
-
-在纯前端渲染中，我们会明确的告诉浏览器：下面要设置的内容是文本（`.innerText`），还是属性（`.setAttribute`），还是样式（`.style`）等等。浏览器不会被轻易的被欺骗，执行预期外的代码了。<br />但纯前端渲染还需注意避免 DOM 型 XSS 漏洞（例如  `onload`  事件和  `href`  中的  `javascript:xxx`  等，请参考下文”预防 DOM 型 XSS 攻击“部分）。<br />在很多内部、管理系统中，采用纯前端渲染是非常合适的。但对于性能要求高，或有 SEO 需求的页面，我们仍然要面对拼接 HTML 的问题。
-
-#### 转义 HTML
-
-如果拼接 HTML 是必要的，就需要采用合适的转义库，对 HTML 模板各处插入点进行充分的转义。<br />常用的模板引擎，如 doT.js、ejs、FreeMarker 等，对于 HTML 转义通常只有一个规则，就是把  `& < > " ' /`  这几个字符转义掉，确实能起到一定的 XSS 防护作用，但并不完善：
-
-| XSS 安全漏洞      | 简单转义是否有防护作用 |
-| ----------------- | ---------------------- |
-| HTML 标签文字内容 | 有                     |
-| HTML 属性值       | 有                     |
-| CSS 内联样式      | 无                     |
-| 内联 JavaScript   | 无                     |
-| 内联 JSON         | 无                     |
-| 跳转链接          | 无                     |
-
-所以要完善 XSS 防护措施，我们要使用更完善更细致的转义策略。<br />例如 Java 工程里，常用的转义库为 `org.owasp.encoder`。以下代码引用自 [org.owasp.encoder 的官方说明](https://www.owasp.org/index.php/OWASP_Java_Encoder_Project#tab=Use_the_Java_Encoder_Project)。
-
-```html
-<!-- HTML 标签内文字内容 -->
-<div><%= Encode.forHtml(UNTRUSTED) %></div>
-<!-- HTML 标签属性值 -->
-<input value="<%= Encode.forHtml(UNTRUSTED) %>" />
-<!-- CSS 属性值 -->
-<div style="width:<= Encode.forCssString(UNTRUSTED) %>">
-  <!-- CSS URL -->
-  <div style="background:<= Encode.forCssUrl(UNTRUSTED) %>">
-    <!-- JavaScript 内联代码块 -->
+<select>
     <script>
-      var msg = '<%= Encode.forJavaScript(UNTRUSTED) %>'
-      alert(msg)
+        document.write(''
+            + '<option value=1>'
+            +     location.href.substring(location.href.indexOf('default=') + 8)
+            + '</option>'
+        );
+        document.write('<option value=2>English</option>');
     </script>
-    <!-- JavaScript 内联代码块内嵌 JSON -->
-    <script>
-      var __INITIAL_STATE__ = JSON.parse('<%= Encoder.forJavaScript(data.to_json) %>')
-    </script>
-    <!-- HTML 标签内联监听器 -->
-    <button onclick="alert('<%= Encode.forJavaScript(UNTRUSTED) %>');">
-      click me
-    </button>
-    <!-- URL 参数 -->
-    <a href="/search?value=<%= Encode.forUriComponent(UNTRUSTED) %>&order=1#top">
-      <!-- URL 路径 -->
-      <a href="/page/<%= Encode.forUriComponent(UNTRUSTED) %>">
-        <!--
-  URL.
-  注意：要根据项目情况进行过滤，禁止掉 "javascript:" 链接、非法 scheme 等
--->
-        <a
-          href='<%=
-  urlValidator.isValid(UNTRUSTED) ?
-    Encode.forHtml(UNTRUSTED) :
-    "/404"
-%>'
-        >
-          link
-        </a></a
-      ></a
-    >
-  </div>
-</div>
+</select>
 ```
 
-可见，HTML 的编码是十分复杂的，在不同的上下文里要使用相应的转义规则。
+攻击者可以直接通过 URL (类似：`https://xxx.com/xxx?default=alert(document.cookie)`) 注入可执行的脚本代码。不过一些浏览器如 Chrome 其内置了一些 XSS 过滤器，可以防止大部分反射型 XSS 攻击。
 
-### 预防 DOM 型 XSS 攻击
+非持久型 XSS 漏洞攻击有以下几点特征：
 
-DOM 型 XSS 攻击，实际上就是网站前端 JavaScript 代码本身不够严谨，把不可信的数据当作代码执行了。
+- 即时性，不经过服务器存储，直接通过 HTTP 的 GET 和 POST 请求就能完成一次攻击，拿到用户隐私数据。
+- 攻击者需要诱骗点击,必须要通过用户点击链接才能发起
+- 反馈率低，所以较难发现和响应修复
+- 盗取用户敏感保密信息
 
-在使用  `.innerHTML`、`.outerHTML`、`document.write()`  时要特别小心，不要把不可信的数据作为 HTML 插到页面上，而应尽量使用  `.textContent`、`.setAttribute()`  等。
+为了防止出现非持久型 XSS 漏洞，需要确保这么几件事情：
 
-如果用 Vue/React 技术栈，并且不使用  `v-html`/`dangerouslySetInnerHTML`  功能，就在前端 render 阶段避免  `innerHTML`、`outerHTML`  的 XSS 隐患。
+- Web 页面渲染的所有内容或者渲染的数据都必须来自于服务端。
+- 尽量不要从 `URL`，`document.referrer`，`document.forms` 等这种 DOM API 中获取数据直接渲染。
+- 尽量不要使用 `eval`, `new Function()`，`document.write()`，`document.writeln()`，`window.setInterval()`，`window.setTimeout()`，`innerHTML`，`document.createElement()` 等可执行字符串的方法。
+- 如果做不到以上几点，也必须对涉及 DOM 渲染的方法传入的字符串参数做 escape 转义。
+- 前端渲染的时候对任何的字段都需要做 escape 转义编码。
 
-DOM 中的内联事件监听器，如  `location`、`onclick`、`onerror`、`onload`、`onmouseover`  等，`<a>`  标签的  `href`  属性，JavaScript 的  `eval()`、`setTimeout()`、`setInterval()`  等，都能把字符串作为代码运行。如果不可信的数据拼接到字符串中传递给这些 API，很容易产生安全隐患，请务必避免。
+### 2.持久型 XSS（存储型 XSS）
 
-```html
-<!-- 内联事件监听器中包含恶意代码 -->
-![](https://awps-assets.meituan.net/mit-x/blog-images-bundle-2018b/3e724ce0.data:image/png,)
-<!-- 链接内包含恶意代码 -->
-<a href="UNTRUSTED">1</a>
-<script>
-  // setTimeout()/setInterval() 中调用恶意代码
-  setTimeout('UNTRUSTED')
-  setInterval('UNTRUSTED')
-  // location 调用恶意代码
-  location.href = 'UNTRUSTED'
-  // eval() 中调用恶意代码
-  eval('UNTRUSTED')
-</script>
-```
+持久型 XSS 漏洞，一般存在于 Form 表单提交等交互功能，如文章留言，提交文本信息等，黑客利用的 XSS 漏洞，将内容经正常功能提交进入数据库持久保存，当前端页面获得后端从数据库中读出的注入代码时，恰好将其渲染执行。
 
-如果项目中有用到这些的话，一定要避免在字符串中拼接不可信数据。
+![img](https://qnm.hunliji.com/FnaENulf_5nNOXYY8nLOFTljwdcY)
 
-## 其他 XSS 防范措施
+举个例子，对于评论功能来说，就得防范持久型 XSS 攻击，因为我可以在评论中输入以下内容
 
-虽然在渲染页面和执行 JavaScript 时，通过谨慎的转义可以防止 XSS 的发生，但完全依靠开发的谨慎仍然是不够的。以下介绍一些通用的方案，可以降低 XSS 带来的风险和后果。
+![img](https://qnm.hunliji.com/FlY9U3J24OlPkd5GQ2mAajhuvFFb)
 
-### Content Security Policy
+主要注入页面方式和非持久型 XSS 漏洞类似，只不过持久型的不是来源于 URL，referer，forms 等，而是来源于**后端从数据库中读出来的数据** 。持久型 XSS 攻击不需要诱骗点击，黑客只需要在提交表单的地方完成注入即可，但是这种 XSS 攻击的成本相对还是很高。
 
-严格的 CSP 在 XSS 的防范中可以起到以下的作用：
+攻击成功需要同时满足以下几个条件：
 
-- 禁止加载外域代码，防止复杂的攻击逻辑
-- 禁止外域提交，网站被攻击后，用户的数据不会泄露到外域
-- 禁止内联脚本执行（规则较严格，目前发现 GitHub 使用）
-- 禁止未授权的脚本执行（新特性，Google Map 移动版在使用）
-- 合理使用上报可以及时发现 XSS，利于尽快修复问题
+- POST 请求提交表单后端没做转义直接入库。
+- 后端从数据库中取出数据没做转义直接输出给前端。
+- 前端拿到后端数据没做转义直接渲染成 DOM。
 
-### 输入内容长度控制
+持久型 XSS 有以下几个特点：
 
-对于不受信任的输入，都应该限定一个合理的长度。虽然无法完全防止 XSS 发生，但可以增加 XSS 攻击的难度。
+- 持久性，植入在数据库中
+- 盗取用户敏感私密信息
+- 危害面广
 
-### 其他安全措施
+### 3.如何防御
 
-- HTTP-only Cookie: 禁止 JavaScript 读取某些敏感 Cookie，攻击者完成 XSS 注入后也无法窃取此 Cookie。
-- 验证码：防止脚本冒充用户提交危险操作。
+对于 XSS 攻击来说，通常有两种方式可以用来防御。
 
-> 过滤 HTML 标签能否防止 XSS? 请列举不能的情况?
+#### 1) CSP
 
-用户除了上传
+CSP 本质上就是建立白名单，开发者明确告诉浏览器哪些外部资源可以加载和执行。我们只需要配置规则，如何拦截是由浏览器自己实现的。我们可以通过这种方式来尽量减少 XSS 攻击。
 
-```html
-<script>
-  alert('xss')
-</script>
-```
+通常可以通过两种方式来开启 CSP：
 
-还可以使用图片 url 等方式来上传脚本进行攻击
+- 设置 HTTP Header 中的 Content-Security-Policy
+- 设置 meta 标签的方式
 
-```html
-<table background="javascript:alert(/xss/)"></table>
-<img src="javascript:alert('xss')" />
-```
+这里以设置 HTTP Header 来举例：
 
-还可以使用各种方式来回避检查, 例如空格, 回车, Tab
-
-```html
-<img
-  src="javas cript:
-alert('xss')"
-/>
-```
-
-还可以通过各种编码转换 (URL 编码, Unicode 编码, HTML 编码, ESCAPE 等) 来绕过检查
+- 只允许加载本站资源
 
 ```
-<img%20src=%22javascript:alert('xss');%22>
-<img src="javascrip&#116&#58alert(/xss/)">
+Content-Security-Policy: default-src 'self'
 ```
 
-## CSRF 是什么?
-
-CSRF（Cross-site request forgery）跨站请求伪造：攻击者诱导受害者进入第三方网站，在第三方网站中，向被攻击网站发送跨站请求。利用受害者在被攻击网站已经获取的注册凭证，绕过后台的用户验证，达到冒充用户对被攻击的网站执行某项操作的目的。
-
-一个典型的 CSRF 攻击有着如下的流程：
-
-- 受害者登录 `a.com`，并保留了登录凭证（Cookie）
-- 攻击者引诱受害者访问了`b.com`
-- `b.com` 向 `a.com` 发送了一个请求：`a.com/act=xx`浏览器会默认携带 a.com 的 Cookie
-- a.com 接收到请求后，对请求进行验证，并确认是受害者的凭证，误以为是受害者自己发送的请求
-- a.com 以受害者的名义执行了 act=xx
-- 攻击完成，攻击者在受害者不知情的情况下，冒充受害者，让 a.com 执行了自己定义的操作
-
-## CSRF 的攻击类型?
-
-**GET 类型的 CSRF**
-
-GET 类型的 CSRF 利用非常简单，只需要一个 HTTP 请求，一般会这样利用：
+- 只允许加载 HTTPS 协议图片
 
 ```
-https://awps-assets.meituan.net/mit-x/blog-images-bundle-2018b/ff0cdbee.example/withdraw?amount=10000&for=hacker
+Content-Security-Policy: img-src https://*
 ```
 
-在受害者访问含有这个 img 的页面后，浏览器会自动向`http://bank.example/withdraw?account=xiaoming&amount=10000&for=hacker`发出一次 HTTP 请求。bank.example 就会收到包含受害者登录信息的一次跨域请求。
+- 允许加载任何来源框架
 
-**POST 类型的 CSRF**
+```
+Content-Security-Policy: child-src 'none'
+```
 
-这种类型的 CSRF 利用起来通常使用的是一个自动提交的表单，如：
+如需了解更多属性，请查看[Content-Security-Policy 文档](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy)
 
-```html
-<form action="http://bank.example/withdraw" method="POST">
-  <input type="hidden" name="account" value="xiaoming" />
-  <input type="hidden" name="amount" value="10000" />
-  <input type="hidden" name="for" value="hacker" />
+对于这种方式来说，只要开发者配置了正确的规则，那么即使网站存在漏洞，攻击者也不能执行它的攻击代码，并且 CSP 的兼容性也不错。
+
+#### 2) 转义字符
+
+用户的输入永远不可信任的，最普遍的做法就是转义输入输出的内容，对于引号、尖括号、斜杠进行转义
+
+```
+function escape(str) {
+  str = str.replace(/&/g, '&amp;')
+  str = str.replace(/</g, '&lt;')
+  str = str.replace(/>/g, '&gt;')
+  str = str.replace(/"/g, '&quto;')
+  str = str.replace(/'/g, '&#39;')
+  str = str.replace(/`/g, '&#96;')
+  str = str.replace(/\//g, '&#x2F;')
+  return str
+}
+```
+
+但是对于显示富文本来说，显然不能通过上面的办法来转义所有字符，因为这样会把需要的格式也过滤掉。对于这种情况，通常采用白名单过滤的办法，当然也可以通过黑名单过滤，但是考虑到需要过滤的标签和标签属性实在太多，更加推荐使用白名单的方式。
+
+```
+const xss = require('xss')
+let html = xss('<h1 id="title">XSS Demo</h1><script>alert("xss");</script>')
+// -> <h1>XSS Demo</h1>&lt;script&gt;alert("xss");&lt;/script&gt;
+console.log(html)
+复制代码
+```
+
+以上示例使用了 js-xss 来实现，可以看到在输出中保留了 h1 标签且过滤了 script 标签。
+
+#### 3) HttpOnly Cookie。
+
+这是预防 XSS 攻击窃取用户 cookie 最有效的防御手段。Web 应用程序在设置 cookie 时，将其属性设为 HttpOnly，就可以避免该网页的 cookie 被客户端恶意 JavaScript 窃取，保护用户 cookie 信息。
+
+## 二、CSRF
+
+CSRF(Cross Site Request Forgery)，即跨站请求伪造，是一种常见的 Web 攻击，它利用用户已登录的身份，在用户毫不知情的情况下，以用户的名义完成非法操作。
+
+### 1.CSRF 攻击的原理
+
+下面先介绍一下 CSRF 攻击的原理：
+
+![img](https://qnm.hunliji.com/FhCVY3K-6aszOu9q2zFcjyojCW9f)
+
+完成 CSRF 攻击必须要有三个条件：
+
+- 用户已经登录了站点 A，并在本地记录了 cookie
+- 在用户没有登出站点 A 的情况下（也就是 cookie 生效的情况下），访问了恶意攻击者提供的引诱危险站点 B (B 站点要求访问站点 A)。
+- 站点 A 没有做任何 CSRF 防御
+
+我们来看一个例子： 当我们登入转账页面后，突然眼前一亮**惊现"XXX 隐私照片，不看后悔一辈子"的链接**，耐不住内心躁动，立马点击了该危险的网站（页面代码如下图所示），但当这页面一加载，便会执行`submitForm`这个方法来提交转账请求，从而将 10 块转给黑客。
+
+![img](https://qnm.hunliji.com/FvF2qSzqgo3nbkgo3y0UsR4Ls8Jo)
+
+### 2.如何防御
+
+防范 CSRF 攻击可以遵循以下几种规则：
+
+- Get 请求不对数据进行修改
+- 不让第三方网站访问到用户 Cookie
+- 阻止第三方网站请求接口
+- 请求时附带验证信息，比如验证码或者 Token
+
+#### 1) SameSite
+
+可以对 Cookie 设置 SameSite 属性。该属性表示 Cookie 不随着跨域请求发送，可以很大程度减少 CSRF 的攻击，但是该属性目前并不是所有浏览器都兼容。
+
+#### 2) Referer Check
+
+HTTP Referer 是 header 的一部分，当浏览器向 web 服务器发送请求时，一般会带上 Referer 信息告诉服务器是从哪个页面链接过来的，服务器籍此可以获得一些信息用于处理。可以通过检查请求的来源来防御 CSRF 攻击。正常请求的 referer 具有一定规律，如在提交表单的 referer 必定是在该页面发起的请求。所以**通过检查 http 包头 referer 的值是不是这个页面，来判断是不是 CSRF 攻击**。
+
+但在某些情况下如从 https 跳转到 http，浏览器处于安全考虑，不会发送 referer，服务器就无法进行 check 了。若与该网站同域的其他网站有 XSS 漏洞，那么攻击者可以在其他网站注入恶意脚本，受害者进入了此类同域的网址，也会遭受攻击。出于以上原因，无法完全依赖 Referer Check 作为防御 CSRF 的主要手段。但是可以通过 Referer Check 来监控 CSRF 攻击的发生。
+
+#### 3) Anti CSRF Token
+
+目前比较完善的解决方案是加入 Anti-CSRF-Token。即发送请求时在 HTTP 请求中以参数的形式加入一个随机产生的 token，并在服务器建立一个拦截器来验证这个 token。服务器读取浏览器当前域 cookie 中这个 token 值，会进行校验该请求当中的 token 和 cookie 当中的 token 值是否都存在且相等，才认为这是合法的请求。否则认为这次请求是违法的，拒绝该次服务。
+
+**这种方法相比 Referer 检查要安全很多**，token 可以在用户登陆后产生并放于 session 或 cookie 中，然后在每次请求时服务器把 token 从 session 或 cookie 中拿出，与本次请求中的 token 进行比对。由于 token 的存在，攻击者无法再构造出一个完整的 URL 实施 CSRF 攻击。但在处理多个页面共存问题时，当某个页面消耗掉 token 后，其他页面的表单保存的还是被消耗掉的那个 token，其他页面的表单提交时会出现 token 错误。
+
+#### 4) 验证码
+
+应用程序和用户进行交互过程中，特别是账户交易这种核心步骤，强制用户输入验证码，才能完成最终请求。在通常情况下，验证码够很好地遏制 CSRF 攻击。**但增加验证码降低了用户的体验，网站不能给所有的操作都加上验证码**。所以只能将验证码作为一种辅助手段，在关键业务点设置验证码。
+
+## 三、点击劫持
+
+点击劫持是一种视觉欺骗的攻击手段。攻击者将需要攻击的网站通过 iframe 嵌套的方式嵌入自己的网页中，并将 iframe 设置为透明，在页面中透出一个按钮诱导用户点击。
+
+### 1. 特点
+
+- 隐蔽性较高，骗取用户操作
+- "UI-覆盖攻击"
+- 利用 iframe 或者其它标签的属性
+
+### 2. 点击劫持的原理
+
+用户在登陆 A 网站的系统后，被攻击者诱惑打开第三方网站，而第三方网站通过 iframe 引入了 A 网站的页面内容，用户在第三方网站中点击某个按钮（被装饰的按钮），实际上是点击了 A 网站的按钮。 接下来我们举个例子：我在优酷发布了很多视频，想让更多的人关注它，就可以通过点击劫持来实现
+
+```
+iframe {
+width: 1440px;
+height: 900px;
+position: absolute;
+top: -0px;
+left: -0px;
+z-index: 2;
+-moz-opacity: 0;
+opacity: 0;
+filter: alpha(opacity=0);
+}
+button {
+position: absolute;
+top: 270px;
+left: 1150px;
+z-index: 1;
+width: 90px;
+height:40px;
+}
+</style>
+......
+<button>点击脱衣</button>
+<img src="http://pic1.win4000.com/wallpaper/2018-03-19/5aaf2bf0122d2.jpg">
+<iframe src="http://i.youku.com/u/UMjA0NTg4Njcy" scrolling="no"></iframe>
+```
+
+![img](https://qnm.hunliji.com/Ftrxs2nZJpeC-gi2iIQtVB-QnqWq)
+
+从上图可知，攻击者通过图片作为页面背景，隐藏了用户操作的真实界面，当你按耐不住好奇点击按钮以后，真正的点击的其实是隐藏的那个页面的订阅按钮，然后就会在你不知情的情况下订阅了。
+
+![img](https://qnm.hunliji.com/FtD6hN1iCm9iW5QV1i370qdpaw34)
+
+### 3. 如何防御
+
+#### 1）X-FRAME-OPTIONS
+
+`X-FRAME-OPTIONS`是一个 HTTP 响应头，在现代浏览器有一个很好的支持。这个 HTTP 响应头 就是为了防御用 iframe 嵌套的点击劫持攻击。
+
+该响应头有三个值可选，分别是
+
+- DENY，表示页面不允许通过 iframe 的方式展示
+- SAMEORIGIN，表示页面可以在相同域名下通过 iframe 的方式展示
+- ALLOW-FROM，表示页面可以在指定来源的 iframe 中展示
+
+#### 2）JavaScript 防御
+
+对于某些远古浏览器来说，并不能支持上面的这种方式，那我们只有通过 JS 的方式来防御点击劫持了。
+
+```
+<head>
+  <style id="click-jack">
+    html {
+      display: none !important;
+    }
+  </style>
+</head>
+<body>
+  <script>
+    if (self == top) {
+      var style = document.getElementById('click-jack')
+      document.body.removeChild(style)
+    } else {
+      top.location = self.location
+    }
+  </script>
+</body>
+```
+
+以上代码的作用就是当通过 iframe 的方式加载页面时，攻击者的网页直接不显示所有内容了。
+
+## 四、URL 跳转漏洞
+
+定义：借助未验证的 URL 跳转，将应用程序引导到不安全的第三方区域，从而导致的安全问题。
+
+### 1.URL 跳转漏洞原理
+
+黑客利用 URL 跳转漏洞来诱导安全意识低的用户点击，导致用户信息泄露或者资金的流失。其原理是黑客构建恶意链接(链接需要进行伪装,尽可能迷惑),发在 QQ 群或者是浏览量多的贴吧/论坛中。 安全意识低的用户点击后,经过服务器或者浏览器解析后，跳到恶意的网站中。
+
+![img](https://qnm.hunliji.com/FtI-G59u2t5t-nnbkcW-CyN-nFUh)
+
+恶意链接需要进行伪装,经常的做法是熟悉的链接后面加上一个恶意的网址，这样才迷惑用户。
+
+![img](https://qnm.hunliji.com/FvXLnSblInEwd_sf3DYLP-_7HcU4)
+
+诸如伪装成像如下的网址，你是否能够识别出来是恶意网址呢？
+
+```
+http://gate.baidu.com/index?act=go&url=http://t.cn/RVTatrd
+http://qt.qq.com/safecheck.html?flag=1&url=http://t.cn/RVTatrd
+http://tieba.baidu.com/f/user/passport?jumpUrl=http://t.cn/RVTatrd
+```
+
+### 2.实现方式：
+
+- Header 头跳转
+- Javascript 跳转
+- META 标签跳转
+
+这里我们举个 Header 头跳转实现方式：
+
+```
+<?php
+$url=$_GET['jumpto'];
+header("Location: $url");
+?>
+
+http://www.wooyun.org/login.php?jumpto=http://www.evil.com
+```
+
+这里用户会认为`www.wooyun.org`都是可信的，但是点击上述链接将导致用户最终访问`www.evil.com`这个恶意网址。
+
+### 3.如何防御
+
+#### 1)referer 的限制
+
+如果确定传递 URL 参数进入的来源，我们可以通过该方式实现安全限制，保证该 URL 的有效性，避免恶意用户自己生成跳转链接
+
+#### 2)加入有效性验证 Token
+
+我们保证所有生成的链接都是来自于我们可信域的，通过在生成的链接里加入用户不可控的 Token 对生成的链接进行校验，可以避免用户生成自己的恶意链接从而被利用，但是如果功能本身要求比较开放，可能导致有一定的限制。
+
+## 五、SQL 注入
+
+SQL 注入是一种常见的 Web 安全漏洞，攻击者利用这个漏洞，可以访问或修改数据，或者利用潜在的数据库漏洞进行攻击。
+
+### 1.SQL 注入的原理
+
+我们先举一个万能钥匙的例子来说明其原理：
+
+![img](https://qnm.hunliji.com/Fu_dXY9yoclokmfZR0fBIW06w6qI)
+
+```
+<form action="/login" method="POST">
+    <p>Username: <input type="text" name="username" /></p>
+    <p>Password: <input type="password" name="password" /></p>
+    <p><input type="submit" value="登陆" /></p>
 </form>
-<script>
-  document.forms[0].submit()
-</script>
 ```
 
-访问该页面后，表单会自动提交，相当于模拟用户完成了一次 POST 操作。
+后端的 SQL 语句可能是如下这样的：
 
-POST 类型的攻击通常比 GET 要求更加严格一点，但仍并不复杂。任何个人网站、博客，被黑客上传页面的网站都有可能是发起攻击的来源，后端接口不能将安全寄托在仅允许 POST 上面。
-
-**链接类型的 CSRF**
-
-链接类型的 CSRF 并不常见，比起其他两种用户打开页面就中招的情况，这种需要用户点击链接才会触发。这种类型通常是在论坛中发布的图片中嵌入恶意链接，或者以广告的形式诱导用户中招，攻击者通常会以比较夸张的词语诱骗用户点击，例如：
-
-```html
-<a href="http://test.com/csrf/withdraw.php?amount=1000&for=hacker" taget="_blank">
-  重磅消息！！
-  <a
-/></a>
+```
+let querySQL = `
+    SELECT *
+    FROM user
+    WHERE username='${username}'
+    AND psw='${password}'
+`;
+// 接下来就是执行 sql 语句...
 ```
 
-由于之前用户登录了信任的网站 A，并且保存登录状态，只要用户主动访问上面的这个 PHP 页面，则表示攻击成功。
+这是我们经常见到的登录页面，但如果有一个恶意攻击者输入的用户名是 `admin' --`，密码随意输入，就可以直接登入系统了。why! ----这就是 SQL 注入
 
-## 如何预防 CSRF?
+我们之前预想的 SQL 语句是:
 
-CSRF 通常从第三方网站发起，被攻击的网站无法防止攻击发生，只能通过增强自己网站针对 CSRF 的防护能力来提升安全性。
+```
+SELECT * FROM user WHERE username='admin' AND psw='password'
+```
 
-CSRF 的两个特点：
+但是恶意攻击者用奇怪用户名将你的 SQL 语句变成了如下形式：
 
-- CSRF（通常）发生在第三方域名。
-- CSRF 攻击者不能获取到 Cookie 等信息，只是使用。
+```
+SELECT * FROM user WHERE username='admin' --' AND psw='xxxx'
+```
 
-针对这两点，我们可以专门制定防护策略，如下：
+在 SQL 中,`' --`是闭合和注释的意思，-- 是注释后面的内容的意思，所以查询语句就变成了：
 
-- 阻止不明外域的访问
-  - 同源检测
-  - Samesite Cookie
-- 提交时要求附加本域才能获取的信息
-  - CSRF Token
-  - 双重 Cookie 验证
+```
+SELECT * FROM user WHERE username='admin'
+```
 
-因此我们可以针对性得进行预防
+所谓的万能密码,本质上就是 SQL 注入的一种利用方式。
 
-### 同源检测
+一次 SQL 注入的过程包括以下几个过程：
 
-既然 CSRF 大多来自第三方网站，那么我们就直接禁止外域（或者不受信任的域名）对我们发起请求:
+- 获取用户请求参数
+- 拼接到代码当中
+- SQL 语句按照我们构造参数的语义执行成功
 
-- 使用 Origin Header 确定来源域名: 在部分与 CSRF 有关的请求中，请求的 Header 中会携带 Origin 字段,如果 Origin 存在，那么直接使用 Origin 中的字段确认来源域名就可以
-- 使用 Referer Header 确定来源域名: 根据 HTTP 协议，在 HTTP 头中有一个字段叫 Referer，记录了该 HTTP 请求的来源地址
+**SQL 注入的必备条件： 1.可以控制输入的数据 2.服务器要执行的代码拼接了控制的数据**。
 
-### CSRF Token
+![img](https://qnm.hunliji.com/FmsJOau9Im5DXI6uaV6y3C9OFA0G)
 
-CSRF 的另一个特征是，攻击者无法直接窃取到用户的信息（Cookie，Header，网站内容等），仅仅是冒用 Cookie 中的信息。
+我们会发现 SQL 注入流程中与正常请求服务器类似，只是黑客控制了数据，构造了 SQL 查询，而正常的请求不会 SQL 查询这一步，**SQL 注入的本质:数据和代码未分离，即数据当做了代码来执行。**
 
-而 CSRF 攻击之所以能够成功，是因为服务器误把攻击者发送的请求当成了用户自己的请求。那么我们可以要求所有的用户请求都携带一个 CSRF 攻击者无法获取到的 Token。服务器通过校验请求是否携带正确的 Token，来把正常的请求和攻击的请求区分开，也可以防范 CSRF 的攻击:
+### 2.危害
 
-CSRF Token 的防护策略分为三个步骤：
+- 获取数据库信息
+  - 管理员后台用户名和密码
+  - 获取其他数据库敏感信息：用户名、密码、手机号码、身份证、银行卡信息……
+  - 整个数据库：脱裤
+- 获取服务器权限
+- 植入 Webshell，获取服务器后门
+- 读取服务器敏感文件
 
-- 将 CSRF Token 输出到页面中
-- 页面提交的请求携带这个 Token
-- 服务器验证 Token 是否正确
+### 3.如何防御
 
-### 双重 Cookie 验证
+- **严格限制 Web 应用的数据库的操作权限**，给此用户提供仅仅能够满足其工作的最低权限，从而最大限度的减少注入攻击对数据库的危害
+- **后端代码检查输入的数据是否符合预期**，严格限制变量的类型，例如使用正则表达式进行一些匹配处理。
+- **对进入数据库的特殊字符（'，"，\，<，>，&，\*，; 等）进行转义处理，或编码转换**。基本上所有的后端语言都有对字符串进行转义处理的方法，比如 lodash 的 lodash.\_escapehtmlchar 库。
+- **所有的查询语句建议使用数据库提供的参数化查询接口**，参数化的语句使用参数而不是将用户输入变量嵌入到 SQL 语句中，即不要直接拼接 SQL 语句。例如 Node.js 中的 mysqljs 库的 query 方法中的 ? 占位参数。
 
-在会话中存储 CSRF Token 比较繁琐，而且不能在通用的拦截上统一处理所有的接口
+## 六、OS 命令注入攻击
 
-那么另一种防御措施是使用双重提交 Cookie。利用 CSRF 攻击不能获取到用户 Cookie 的特点，我们可以要求 Ajax 和表单请求携带一个 Cookie 中的值
+OS 命令注入和 SQL 注入差不多，只不过 SQL 注入是针对数据库的，而 OS 命令注入是针对操作系统的。OS 命令注入攻击指通过 Web 应用，执行非法的操作系统命令达到攻击的目的。只要在能调用 Shell 函数的地方就有存在被攻击的风险。倘若调用 Shell 时存在疏漏，就可以执行插入的非法命令。
 
-双重 Cookie 采用以下流程：
+命令注入攻击可以向 Shell 发送命令，让 Windows 或 Linux 操作系统的命令行启动程序。也就是说，通过命令注入攻击可执行操作系统上安装着的各种程序。
 
-- 在用户访问网站页面时，向请求域名注入一个 Cookie，内容为随机字符串（例如`csrfcookie=v8g9e4ksfhw`）。
-- 在前端向后端发起请求时，取出 Cookie，并添加到 URL 的参数中（接上例`POST https://www.a.com/comment?csrfcookie=v8g9e4ksfhw`）。
-- 后端接口验证 Cookie 中的字段与 URL 参数中的字段是否一致，不一致则拒绝。
+### 1.原理
 
-## Samesite Cookie 属性
+![img](https://qnm.hunliji.com/FntMW-mFSf_Vpde8r-DY8VfUr_1j)
 
-Google 起草了一份草案来改进 HTTP 协议，那就是为 Set-Cookie 响应头新增 Samesite 属性，它用来标明这个 Cookie 是个“同站 Cookie”，同站 Cookie 只能作为第一方 Cookie，不能作为第三方 Cookie，Samesite 有两个属性值:
+黑客构造命令提交给 web 应用程序，web 应用程序提取黑客构造的命令，拼接到被执行的命令中，因黑客注入的命令打破了原有命令结构，导致 web 应用执行了额外的命令，最后 web 应用程序将执行的结果输出到响应页面中。
 
-- Samesite=Strict: 这种称为严格模式，表明这个 Cookie 在任何情况下都不可能作为第三方 Cookie
-- Samesite=Lax: 这种称为宽松模式，比 Strict 放宽了点限制,假如这个请求是这种请求且同时是个 GET 请求，则这个 Cookie 可以作为第三方 Cookie
+我们通过一个例子来说明其原理，假如需要实现一个需求：用户提交一些内容到服务器，然后在服务器执行一些系统命令去返回一个结果给用户
 
-## 网络劫持有哪几种?
+```
+// 以 Node.js 为例，假如在接口中需要从 github 下载用户指定的 repo
+const exec = require('mz/child_process').exec;
+let params = {/* 用户输入的参数 */};
+exec(`git clone ${params.repo} /some/path`);
+```
 
-网络劫持一般分为两种:
+如果 `params.repo` 传入的是 `https://github.com/admin/admin.github.io.git` 确实能从指定的 git repo 上下载到想要的代码。 但是如果 `params.repo` 传入的是 `https://github.com/xx/xx.git && rm -rf /* &&` 恰好你的服务是用 root 权限起的就糟糕了。
 
-- DNS 劫持: (输入京东被强制跳转到淘宝这就属于 dns 劫持)
+### 2.如何防御
 
-  - DNS 强制解析: 通过修改运营商的本地 DNS 记录，来引导用户流量到缓存服务器
-  - 302 跳转的方式: 通过监控网络出口的流量，分析判断哪些内容是可以进行劫持处理的,再对劫持的内存发起 302 跳转的回复，引导用户获取内容
-
-- HTTP 劫持: (访问谷歌但是一直有贪玩蓝月的广告),由于 http 明文传输,运营商会修改你的 http 响应内容(即加广告)
-
-## 如何应对网络劫持?
-
-DNS 劫持由于涉嫌违法,已经被监管起来,现在很少会有 DNS 劫持,而 http 劫持依然非常盛行.
-
-最有效的办法就是全站 HTTPS,将 HTTP 加密,这使得运营商无法获取明文,就无法劫持你的响应内容.
-
-## HTTPS 一定是安全的吗?
-
-### 非全站 HTTPS 并不安全
-
-以国内的工商银行为例
-
-![2019-08-04-14-23-39](https://xiaomuzhu-image.oss-cn-beijing.aliyuncs.com/b2751369465b237510ae0d3d5d0cb328.png)
-
-工商银行的首页不支持 HTTPS
-
-![2019-08-04-14-25-14](https://xiaomuzhu-image.oss-cn-beijing.aliyuncs.com/8d16b5d0bd731a3b76dc0415358e7ad7.png)
-
-而工商银行的网银页面是支持 HTTPS 的
-
-可能有人会问,登录页面支持 HTTPS 不就行了,首页又没有涉及账户信息.
-
-其实这是非常不安全的行为,黑客会利用这一点进行攻击,一般是以下流程:
-
-1. 用户在首页点击「登录」，页面跳转到有 https 的网银页面,但此时由于首页是 http 请求,所以是明文的,这就会被黑客劫持
-2. 黑客劫持用户的跳转请求,将 https 网银页面地址转换为 http 的地址再发送给银行
-
-用户 <== HTTP ==> 黑客 <== HTTPS ==> 银行
-
-3. 此时如果用户输入账户信息,那么会被中间的黑客获取,此时的账号密码就被泄露了
-
-好在是工商银行的网银页面应该是开启了 hsts 和 pre load,只支持 https,因此上述攻击暂时是无效的.
-
-## 中间人攻击
-
-中间人 (Man-in-the-middle attack, MITM) 是指攻击者与通讯的两端分别创建独立的联系, 并交换其所收到的数据, 使通讯的两端认为他们正在通过一个私密的连接与对方直接对话, 但事实上整个会话都被攻击者完全控制. 在中间人攻击中, 攻击者可以拦截通讯双方的通话并插入新的内容.
-
-一般的过程如下:
-
-- 客户端发送请求到服务端，请求被中间人截获
-- 服务器向客户端发送公钥
-- 中间人截获公钥，保留在自己手上。然后自己生成一个【伪造的】公钥，发给客户端
-- 客户端收到伪造的公钥后，生成加密 hash 值发给服务器
-- 中间人获得加密 hash 值，用自己的私钥解密获得真秘钥,同时生成假的加密 hash 值，发给服务器
-- 服务器用私钥解密获得假密钥,然后加密数据传输给客户端
-
-> [HTTPS 中间人攻击实践](https://www.cnblogs.com/lulianqi/p/10558719.html)
-
----
-
-强烈建议阅读下面两篇前端安全文章:
-
-[前端安全系列（一）：如何防止 XSS 攻击？
-](https://tech.meituan.com/2018/09/27/fe-security.html)
-
-[前端安全系列（二）：如何防止 CSRF 攻击？](https://tech.meituan.com/2018/10/11/fe-security-csrf.html)
+- 后端对前端提交内容进行规则限制（比如正则表达式）。
+- 在调用系统命令前对所有传入参数进行命令行参数转义过滤。
+- 不要直接拼接命令语句，借助一些工具做拼接、转义预处理，例如 Node.js 的 `shell-escape npm`包

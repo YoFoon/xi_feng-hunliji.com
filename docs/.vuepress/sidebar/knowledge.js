@@ -17,7 +17,7 @@ module.exports = [
   {
     title: '浏览器',
     collapsable: true,
-    children: ['dom', 'domRender', 'cache', 'url'],
+    children: ['dom', 'domRender', 'cache', 'url', 'requestHeader'],
   },
   {
     title: '网络',
@@ -38,6 +38,7 @@ module.exports = [
       'devsProxy',
       'setState',
       'router',
+      'reactError',
       'fiber',
       'abstract',
       'reactHook',
