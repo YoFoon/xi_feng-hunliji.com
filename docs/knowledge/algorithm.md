@@ -23,7 +23,7 @@
 举一个简单的例子：
 
 ```js
-const increment = n => n++
+const increment = (n) => n++
 ```
 
 不管 n 如何增长，都不会影响到这个函数的计算时间，因此这个代码的时间复杂度都是 O(1)。
@@ -82,7 +82,7 @@ functions binarySearch(arr, target) {
 这其中典型代表就是归并排序，我们会在对应小节详细分析它的复杂度。
 
 ```js
-const mergeSort = array => {
+const mergeSort = (array) => {
   const len = array.length
   if (len < 2) {
     return len
@@ -133,27 +133,14 @@ function bubleSort(arra) {
 }
 ```
 
-## 排序算法
-
-排序算法有很多种,我们只讲最具代表性的几种算法： 冒泡排序、希尔排序、归并排序、快速排序
-
-![2019-08-07-00-04-56](https://xiaomuzhu-image.oss-cn-beijing.aliyuncs.com/5cf4f5068302e59c8231c18ad9680f10.png)
-
-排序算法主体内容采用的是[十大经典排序算法总结（JavaScript 描述）](https://github.com/damonare/Sorts),更详细的内容可以移步,因为作者的内容与教科书上的内容有较大冲突,因此我们重写了**快速排序**部分的内容,以教科书为准,因此建议重点读一下本文的快速排序部分.
-
 ### 冒泡排序（Bubble Sort）
 
 实现思路:
 
-1. 比较相邻的元素。如果第一个比第二个大，就交换他们两个。
-
-2. 对每一对相邻元素作同样的工作，从开始第一对到结尾的最后一对。这步做完后，最后的元素会是最大的数。
-
-3. 针对所有的元素重复以上的步骤，除了最后一个。
-
-4. 持续每次对越来越少的元素重复上面的步骤，直到没有任何一对数字需要比较。
-
-实现:
+- 比较相邻的元素。如果第一个比第二个大，就交换他们两个。
+- 对每一对相邻元素作同样的工作，从开始第一对到结尾的最后一对。这步做完后，最后的元素会是最大的数。
+- 针对所有的元素重复以上的步骤，除了最后一个。
+- 持续每次对越来越少的元素重复上面的步骤，直到没有任何一对数字需要比较。
 
 ```js
 function bubbleSort(arr) {
@@ -175,7 +162,6 @@ function bubbleSort(arr) {
 
 ```javascript
 function bubbleSort2(arr) {
-  console.time('改进后冒泡排序耗时')
   var i = arr.length - 1 //初始时,最后位置保持不变
   while (i > 0) {
     var pos = 0 //每趟开始时,无记录交换
@@ -188,7 +174,6 @@ function bubbleSort2(arr) {
       }
     i = pos //为下一趟排序作准备
   }
-  console.timeEnd('改进后冒泡排序耗时')
   return arr
 }
 ```
@@ -200,7 +185,6 @@ function bubbleSort3(arr3) {
   var low = 0
   var high = arr.length - 1 //设置变量的初始值
   var tmp, j
-  console.time('2.改进后冒泡排序耗时')
   while (low < high) {
     for (
       j = low;
@@ -225,204 +209,38 @@ function bubbleSort3(arr3) {
       }
     ++low //修改low值,后移一位
   }
-  console.timeEnd('2.改进后冒泡排序耗时')
   return arr3
 }
 ```
 
-动画:
-
-![](https://user-gold-cdn.xitu.io/2016/11/30/f427727489dff5fcb0debdd69b478ecf?imageView2/0/w/1280/h/960/format/webp/ignore-error/1)
-
-### 希尔排序(Shell Sort）
-
-> 1959 年 Shell 发明；
-> 第一个突破 O(n^2)的排序算法；是简单插入排序的改进版；它与插入排序的不同之处在于，它会优先比较距离较远的元素。希尔排序又叫缩小增量排序
-
-#### 算法简介
-
-> 希尔排序的核心在于间隔序列的设定。既可以提前设定好间隔序列，也可以动态的定义间隔序列。动态定义间隔序列的算法是《算法（第 4 版》的合著者 Robert Sedgewick 提出的。
+## 快速排序（Quick Sort）
 
 #### 算法描述和实现
 
-先将整个待排序的记录序列分割成为若干子序列分别进行直接插入排序，具体算法描述：
-
-1. 选择一个增量序列 t1，t2，…，tk，其中 ti>tj，tk=1；
-2. 按增量序列个数 k，对序列进行 k 趟排序；
-3. 每趟排序，根据对应的增量 ti，将待排序列分割成若干长度为 m 的子序列，分别对各子表进行直接插入排序。仅增量因子为 1 时，整个序列作为一个表来处理，表长度即为整个序列的长度。
-
-**Javascript 代码实现：**
-
-```javascript
-function shellSort(arr) {
-  var len = arr.length,
-    temp,
-    gap = 1
-  console.time('希尔排序耗时:')
-  while (gap < len / 5) {
-    //动态定义间隔序列
-    gap = gap * 5 + 1
-  }
-  for (gap; gap > 0; gap = Math.floor(gap / 5)) {
-    for (var i = gap; i < len; i++) {
-      temp = arr[i]
-      for (var j = i - gap; j >= 0 && arr[j] > temp; j -= gap) {
-        arr[j + gap] = arr[j]
-      }
-      arr[j + gap] = temp
-    }
-  }
-  console.timeEnd('希尔排序耗时:')
-  return arr
-}
-var arr = [3, 44, 38, 5, 47, 15, 36, 26, 27, 2, 46, 4, 19, 50, 48]
-console.log(shellSort(arr)) //[2, 3, 4, 5, 15, 19, 26, 27, 36, 38, 44, 46, 47, 48, 50]
-```
-
-**希尔排序图示（图片来源网络）：**
-
-![2019-08-07-00-16-36](https://xiaomuzhu-image.oss-cn-beijing.aliyuncs.com/6974f74ff2e54223d60693f04759ff7f.png)
-
-#### 算法分析
-
-- 最佳情况：T(n) = O(nlog2 n)
-- 最坏情况：T(n) = O(nlog2 n)
-- 平均情况：T(n) =O(nlog n)
-
-### 归并排序（Merge Sort）
-
-> 和选择排序一样，归并排序的性能不受输入数据的影响，但表现比选择排序好的多，因为始终都是 O(n log n）的时间复杂度。代价是需要额外的内存空间。
-
-#### 算法简介
-
-> 归并排序是建立在归并操作上的一种有效的排序算法。该算法是采用分治法（Divide and Conquer）的一个非常典型的应用。归并排序是一种稳定的排序方法。将已有序的子序列合并，得到完全有序的序列；即先使每个子序列有序，再使子序列段间有序。若将两个有序表合并成一个有序表，称为 2-路归并。
-
-#### 算法描述和实现
-
-具体算法描述如下：
-
-1. 把长度为 n 的输入序列分成两个长度为 n/2 的子序列；
-2. 对这两个子序列分别采用归并排序；
-3. 将两个排序好的子序列合并成一个最终的排序序列。
-
-**Javscript 代码实现:**
-
-```javascript
-function mergeSort(arr) {
-  //采用自上而下的递归方法
-  var len = arr.length
-  if (len < 2) {
-    return arr
-  }
-  var middle = Math.floor(len / 2),
-    left = arr.slice(0, middle),
-    right = arr.slice(middle)
-  return merge(mergeSort(left), mergeSort(right))
-}
-
-function merge(left, right) {
-  var result = []
-  console.time('归并排序耗时')
-  while (left.length && right.length) {
-    if (left[0] <= right[0]) {
-      result.push(left.shift())
-    } else {
-      result.push(right.shift())
-    }
-  }
-
-  while (left.length) result.push(left.shift())
-
-  while (right.length) result.push(right.shift())
-  console.timeEnd('归并排序耗时')
-  return result
-}
-var arr = [3, 44, 38, 5, 47, 15, 36, 26, 27, 2, 46, 4, 19, 50, 48]
-console.log(mergeSort(arr))
-```
-
-**归并排序动图演示:**
-
-![这里写图片描述](https://user-gold-cdn.xitu.io/2016/11/29/33d105e7e7e9c60221c445f5684ccfb6?imageView2/0/w/1280/h/960/format/webp/ignore-error/1)
-
-#### 算法分析
-
-- 最佳情况：T(n) = O(n)
-- 最差情况：T(n) = O(nlogn)
-- 平均情况：T(n) = O(nlogn)
-
-### 快速排序（Quick Sort）
-
-#### 算法简介
-
-快速排序的基本思想：通过一趟排序将待排记录分隔成独立的两部分，其中一部分记录的关键字均比另一部分的关键字小，则可分别对这两部分记录继续进行排序，以达到整个序列有序。
-
-#### 算法描述和实现
-
-1.从数组中选择中间一项作为主元；
-
-2.创建两个指针，左边一个指向数组的第一项，右边指向数组最后一项。移动左指针直到我们找到一个比主元大的元素，接着，移动右指针直到找到一个比主元小的元素。然后交换它们，重复这个过程，直到左指针超过了右指针。这个过程是的比主元小的值都排在了主元之前，而比主元大的值都排在了主元之后，这一步叫划分操作。
-
-3.接着，算法对划分的小数组（较主元小的值组成的子数组，以及较主元大的值组成的子数组）重复之前的两个步骤，直至数组以完全排序。
+- 在数据集之中，选择一个元素作为"基准"（pivot）。
+- 所有小于"基准"的元素，都移到"基准"的左边；所有大于"基准"的元素，都移到"基准"的右边。
+- 对"基准"左边和右边的两个子集，不断重复第一步和第二步，直到所有子集只剩下一个元素为止。
 
 ```js
 // 快速排序
-const quickSort = (function() {
-  // 默认状态下的比较函数
-  function compare(a, b) {
-    if (a === b) {
-      return 0
+const quickSort = function(arr) {
+  if (arr.length <= 1) {
+    return arr
+  }
+  const pivotIndex = Math.floor(arr.length / 2)
+  const pivot = arr.splice(pivotIndex, 1)[0]
+  const left = []
+  const right = []
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] < pivot) {
+      left.push(arr[i])
+    } else {
+      right.push(arr[i])
     }
-    return a < b ? -1 : 1
   }
-
-  function swap(array, a, b) {
-    ;[array[a], array[b]] = [array[b], array[a]]
-  }
-
-  // 分治函数
-  function partition(array, left, right) {
-    // 用index取中间值而非splice
-    const pivot = array[Math.floor((right + left) / 2)]
-    let i = left
-    let j = right
-
-    while (i <= j) {
-      while (compare(array[i], pivot) === -1) {
-        i++
-      }
-      while (compare(array[j], pivot) === 1) {
-        j--
-      }
-      if (i <= j) {
-        swap(array, i, j)
-        i++
-        j--
-      }
-    }
-    return i
-  }
-  // 快排函数
-  function quick(array, left, right) {
-    let index
-    if (array.length > 1) {
-      index = partition(array, left, right)
-      if (left < index - 1) {
-        quick(array, left, index - 1)
-      }
-      if (index < right) {
-        quick(array, index, right)
-      }
-    }
-    return array
-  }
-  return function quickSort(array) {
-    return quick(array, 0, array.length - 1)
-  }
-})()
+  return quickSort(left).concat([pivot], quickSort(right))
+}
 ```
-
-![](https://user-gold-cdn.xitu.io/2016/11/29/dd9dc195a7331351671fe9ac4f7d5aa4?imageView2/0/w/1280/h/960/format/webp/ignore-error/1)
 
 #### 算法分析
 
@@ -430,19 +248,13 @@ const quickSort = (function() {
 最差情况：T(n) = O(n2)
 平均情况：T(n) = O(nlogn)
 
-## 查找算法
-
-### 二分查找法
-
-#### 算法简介
-
-折半查找算法要求查找表的数据是线性结构存储，还要求查找表中的顺序是由小到大排序（由大到小排序）
+## 二分查找法
 
 #### 算法思路及实现
 
-1. 首先设两个指针，low 和 height，表示最低索引和最高索引
-2. 然后取中间位置索引 middle，判断 middle 处的值是否与所要查找的数相同，相同则结束查找，middle 处的值比所要查找的值小就把 low 设为 middle+1，如果 middle 处的值比所要查找的值大就把 height 设为 middle-1
-3. 然后再新区间继续查到，直到找到或者 low>height 找不到所要查找的值结束查找
+- 首先设两个指针，low 和 height，表示最低索引和最高索引
+- 然后取中间位置索引 middle，判断 middle 处的值是否与所要查找的数相同，相同则结束查找，middle 处的值比所要查找的值小就把 low 设为 middle+1，如果 middle 处的值比所要查找的值大就把 height 设为 middle-1
+- 然后再新区间继续查到，直到找到或者 low>height 找不到所要查找的值结束查找
 
 ```js
 functions binarySearch(arr, target) {
