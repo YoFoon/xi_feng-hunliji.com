@@ -6,6 +6,8 @@
 
 [shell 推送 git](/blog/20200414-shell-push-git.md)
 
+[wangEditor 上传附件](/blog/20200421-wang-editor-add-upload-file.md)
+
 ### REACT
 
 [从 jsx 到 react 的虚拟 dom 对象](/blog/20200414-jsx-2-virtual-dom.md)

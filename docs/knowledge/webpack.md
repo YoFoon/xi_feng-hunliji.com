@@ -1,29 +1,5 @@
 # webpack 面试题
 
-webpack 是事实上的前端打包标准,相关的面试题也是面试的热点.
-
-## webpack 与 grunt、gulp 的不同？
-
-Grunt、Gulp 是基于任务运行的工具：
-
-它们会自动执行指定的任务，就像流水线，把资源放上去然后通过不同插件进行加工，它们包含活跃的社区，丰富的插件，能方便的打造各种工作流。
-
-Webpack 是基于模块化打包的工具:
-
-自动化处理模块,webpack 把一切当成模块，当 webpack 处理应用程序时，它会递归地构建一个依赖关系图(dependency graph)，其中包含应用程序需要的每个模块，然后将所有这些模块打包成一个或多个 bundle。
-
-因此这是完全不同的两类工具,而现在主流的方式是用 npm script 代替 Grunt、Gulp,npm script 同样可以打造任务流.
-
-## webpack、rollup、parcel 优劣？
-
-- webpack 适用于大型复杂的前端站点构建: webpack 有强大的 loader 和插件生态, 打包后的文件实际上就是一个立即执行函数，这个立即执行函数接收一个参数，这个参数是模块对象，键为各个模块的路径，值为模块内容。立即执行函数内部则处理模块之间的引用，执行模块等,这种情况更适合文件依赖复杂的应用开发.
-- rollup 适用于基础库的打包，如 vue、d3 等: Rollup 就是将各个模块打包进一个文件中，并且通过 Tree-shaking 来删除无用的代码,可以最大程度上降低代码体积,但是 rollup 没有 webpack 如此多的的如代码分割、按需加载等高级功能，其更聚焦于库的打包，因此更适合库的开发.
-- parcel 适用于简单的实验性项目: 他可以满足低门槛的快速看到效果,但是生态差、报错信息不够全面都是他的硬伤，除了一些玩具项目或者实验项目不建议使用
-
-![2019-08-03-02-53-46](https://xiaomuzhu-image.oss-cn-beijing.aliyuncs.com/14f023a939e7a89330629f4cffb70cfd.png)
-
-![2019-08-03-02-53-34](https://xiaomuzhu-image.oss-cn-beijing.aliyuncs.com/e790108aaba2c7c7a2e7393de102b1b5.png)
-
 ## 有哪些常见的 Loader？
 
 - file-loader：把文件输出到一个文件夹中，在代码中通过相对 URL 去引用输出的文件
@@ -43,6 +19,7 @@ Webpack 是基于模块化打包的工具:
 - webpack-parallel-uglify-plugin: 多核压缩,提高压缩速度
 - webpack-bundle-analyzer: 可视化 webpack 输出文件的体积
 - mini-css-extract-plugin: CSS 提取到单独的文件中,支持按需加载
+- html-webpack-plugin：简化 HTML 文件创建 (依赖于 html-loader)
 
 ## 分别介绍 bundle，chunk，module 是什么
 
@@ -76,8 +53,6 @@ Webpack 的运行流程是一个串行的过程，从启动到结束会依次执
 
 在以上过程中，Webpack 会在特定的时间点广播出特定的事件，插件在监听到感兴趣的事件后会执行特定的逻辑，并且插件可以调用 Webpack 提供的 API 改变 Webpack 的运行结果。
 
-> 来源于[深入浅出 webpack 第五章](https://wangchong.tech/webpack/5%E5%8E%9F%E7%90%86/5-1%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E6%A6%82%E6%8B%AC.html)
-
 > 拓展阅读[细说 webpack 之流程篇](https://fed.taobao.org/blog/2016/09/10/webpack-flow/)
 
 ## 是否写过 Loader 和 Plugin？描述一下编写 loader 或 plugin 的思路？
@@ -87,6 +62,14 @@ Loader 像一个"翻译官"把读到的源文件内容转义成新的文件内�
 编写 Loader 时要遵循单一原则，每个 Loader 只做一种"转义"工作。 每个 Loader 的拿到的是源文件内容（`source`），可以通过返回值的方式将处理后的内容输出，也可以调用`this.callback()`方法，将内容返回给 webpack。 还可以通过  `this.async()`生成一个`callback`函数，再用这个 callback 将处理后的内容输出出去。 此外`webpack`还为开发者准备了开发 loader 的工具函数集——`loader-utils`。
 
 相对于 Loader 而言，Plugin 的编写就灵活了许多。 webpack 在运行的生命周期中会广播出许多事件，Plugin 可以监听这些事件，在合适的时机通过 Webpack 提供的 API 改变输出结果。
+
+## 使用 webpack 开发时，你用过哪些可以提高效率的插件？
+
+- webpack-dashboard：可以更友好的展示相关打包信息。
+- webpack-merge：提取公共配置，减少重复配置代码
+- speed-measure-webpack-plugin：简称 SMP，分析出 Webpack 打包过程中 Loader 和 Plugin 的耗时，有助于找到构建过程中的性能瓶颈。
+- size-plugin：监控资源体积变化，尽早发现问题
+- HotModuleReplacementPlugin：模块热替换
 
 ## webpack 的热更新是如何做到的？说明其原理？
 
@@ -108,6 +91,16 @@ webpack 的热更新又称热替换（Hot Module Replacement），缩写为 HMR�
 8. 最后一步，当 HMR 失败后，回退到 live reload 操作，也就是进行浏览器刷新来获取最新打包代码。
 
 > 详细原理解析来源于知乎饿了么前端[Webpack HMR 原理解析](https://zhuanlan.zhihu.com/p/30669007)
+
+## source map 是什么？生产环境怎么用？
+
+`source map` 是将编译、打包、压缩后的代码映射回源代码的过程。打包压缩后的代码不具备良好的可读性，想要调试源码就需要 soucre map。
+**map 文件只要不打开开发者工具，浏览器是不会加载的。**
+线上环境一般有三种处理方案：
+
+- hidden-source-map：借助第三方错误监控平台 Sentry 使用
+- nosources-source-map：只会显示具体行数以及查看源代码的错误栈。安全性比 sourcemap 高
+- sourcemap：通过 nginx 设置将 .map 文件只对白名单开放(公司内网)
 
 ## 如何用 webpack 来优化前端性能？
 
@@ -151,3 +144,19 @@ webpack 的热更新又称热替换（Hot Module Replacement），缩写为 HMR�
 
 - 每个页面都有公共的代码，可以将这些代码抽离出来，避免重复的加载。比如，每个页面都引用了同一套 css 样式表
 - 随着业务的不断扩展，页面可能会不断的追加，所以一定要让入口的配置足够灵活，避免每次添加新页面还需要修改构建配置
+
+## 聊一聊 Babel 原理吧
+
+大多数 JavaScript Parser 遵循 estree 规范，Babel 最初基于 acorn 项目(轻量级现代 JavaScript 解析器)
+Babel 大概分为三大部分：
+
+- 解析：将代码转换成 AST
+
+  - 词法分析：将代码(字符串)分割为 token 流，即语法单元成的数组
+  - 语法分析：分析 token 流(上面生成的数组)并生成 AST
+
+- 转换：访问 AST 的节点进行变换操作生产新的 AST
+
+  - Taro 就是利用 babel 完成的小程序语法转换
+
+- 生成：以新的 AST 为基础生成代码

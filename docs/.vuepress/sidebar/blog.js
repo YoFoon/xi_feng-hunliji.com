@@ -6,8 +6,9 @@ module.exports = [
       '',
       '20200414-hide-element',
       '20200414-intersection-observer',
-      '20200414-shell-push-git'
-    ]
+      '20200414-shell-push-git',
+      '20200421-wang-editor-add-upload-file',
+    ],
   },
   {
     title: 'react',
@@ -18,7 +19,7 @@ module.exports = [
       '20200414-react-dom-render',
       '20200414-expiration-time',
       '20200414-enqueue-update',
-      '20200414-schedule-work'
-    ]
-  }
+      '20200414-schedule-work',
+    ],
+  },
 ]
