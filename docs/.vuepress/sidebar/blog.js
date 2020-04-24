@@ -8,6 +8,8 @@ module.exports = [
       '20200414-intersection-observer',
       '20200414-shell-push-git',
       '20200421-wang-editor-add-upload-file',
+      '20200422-ye-mian-zhu-ru-50-wan-ge-li',
+      '20200424-qian-duan-gong-cheng-hua',
     ],
   },
   {

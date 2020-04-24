@@ -6,32 +6,32 @@ module.exports = [
   },
   {
     title: '前端基础',
-    collapsable: true,
+    collapsable: false,
     children: ['html', 'css', 'jsBasic', 'browser', 'jsonp', 'jsWritten'],
   },
   {
     title: '前端深入',
-    collapsable: true,
+    collapsable: false,
     children: ['hoisting', 'eventLoop', 'immutable', 'memory', 'deepclone', 'event', 'mechanism'],
   },
   {
     title: '浏览器',
-    collapsable: true,
+    collapsable: false,
     children: ['dom', 'domRender', 'cache', 'url', 'requestHeader'],
   },
   {
     title: '网络',
-    collapsable: true,
+    collapsable: false,
     children: ['http', 'tcp', 'cdn', 'https', 'http2', 'httpWritten'],
   },
   {
     title: '常用算法',
-    collapsable: true,
+    collapsable: false,
     children: ['algorithm', 'string', 'tree', 'chain'],
   },
   {
     title: '前端框架',
-    collapsable: true,
+    collapsable: false,
     children: [
       'react',
       'virtualDom',
@@ -46,12 +46,12 @@ module.exports = [
   },
   {
     title: '性能',
-    collapsable: true,
+    collapsable: false,
     children: ['load', 'execute'],
   },
   {
     title: '工程化',
-    collapsable: true,
+    collapsable: false,
     children: [
       'webpack',
       'engineering',
@@ -66,7 +66,7 @@ module.exports = [
   },
   {
     title: '安全',
-    collapsable: true,
+    collapsable: false,
     children: ['security'],
   },
 ]
