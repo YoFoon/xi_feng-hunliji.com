@@ -533,3 +533,58 @@ PromisePolyfill.race = function(promises) {
   })
 }
 ```
+
+## 实现ajax
+```js
+// 定义 xhr
+const timeout = 5 * 60 * 1000; //5 min
+const xhr = new XMLHttpRequest();
+xhr.open('get', url);
+// 设置超时
+xhr.timeout = timeout;
+xhr.ontimeout = function() {
+  console.error('超时');
+};
+// progress
+if (xhr.upload) {
+  xhr.upload.onprogress = function(e) {
+    // 进度条
+    if (e.lengthComputable) {
+      const percent = e.loaded / e.total;
+      console.log(percent)
+    }
+  };
+}
+
+// 返回数据
+xhr.onreadystatechange = function() {
+  if (xhr.readyState === 4) {
+    if (xhr.status < 200 || xhr.status >= 300) {
+      console.log("failed")
+      return;
+    }
+
+    let result = xhr.responseText;
+    if ((typeof result === 'undefined' ? 'undefined' : typeof result) !== 'object') {
+      try {
+        result = JSON.parse(result);
+      } catch (ex) {
+        console.log('failed')
+        return;
+      }
+    }
+    const data = result || {};
+    if (data.code == 0) {
+      console.log(data)
+    }
+  }
+};
+// 自定义 headers
+for (let key in uploadFileHeaders) {
+  xhr.setRequestHeader(key, uploadFileHeaders[key]);
+}
+// 跨域传 cookie
+xhr.withCredentials = false;
+// 发送请求
+xhr.send(null);
+```

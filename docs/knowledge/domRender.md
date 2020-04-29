@@ -185,21 +185,45 @@ for(let i = 0; i < 1000; i++) {
 
 #### 1）情况 1 `<script src="script.js"></script>`
 
-没有 defer 或 async，浏览器会立即加载并执行指定的脚本，也就是说不等待后续载入的文档元素，读到就加载并执行。
+- 浏览器一边下载 HTML 网页，一边开始解析。也就是说，**不等到下载完，就开始解析**。
+- 解析过程中，浏览器发现`script`元素，就暂停解析，把网页渲染的控制权转交给 JavaScript 引擎。
+- 如果`script`元素引用了外部脚本，就下载该脚本再执行，否则就直接执行代码。
+- avaScript 引擎执行完毕，控制权交还渲染引擎，恢复往下解析 HTML 网页。
 
 #### 2）情况 2 `<script async src="script.js"></script>` (**异步下载**)
+- 浏览器开始解析 HTML 网页。
+- 解析过程中，发现带有async属性的script标签。
+- 浏览器继续往下解析 HTML 网页，同时并行下载`<script>`标签中的外部脚本。
+- 脚本下载完成，浏览器暂停解析 HTML 网页，开始执行下载的脚本。
+- 脚本执行完毕，浏览器恢复解析 HTML 网页。
 
-async 属性表示异步执行引入的 JavaScript，与 defer 的区别在于，如果已经加载好，就会开始执行——无论此刻是 HTML 解析阶段还是 DOMContentLoaded 触发之后。需要注意的是，这种方式加载的 JavaScript 依然会阻塞 load 事件。换句话说，async-script 可能在 DOMContentLoaded 触发之前或之后执行，但一定在 load 触发之前执行。
+async属性可以保证脚本下载的同时，浏览器继续渲染。
+
+async无法保证脚本的执行顺序。哪个脚本先下载结束，就先执行那个脚本。
+
+使用async属性的脚本文件里面的代码，不应该使用document.write方法。
 
 #### 3）情况 3 `<script defer src="script.js"></script>`(**延迟执行**)
+- 浏览器开始解析 HTML 网页。
+- 解析过程中，发现带有defer属性的`script`元素。
+- 浏览器继续往下解析 HTML 网页，同时并行下载`script`元素加载的外部脚本。
+- 浏览器完成解析 HTML 网页，此时再回过头执行已经下载完成的脚本。
+#### defer 与相比普通 script，有三点区别：
+有了defer属性，浏览器下载脚本文件的时候，不会阻塞页面渲染。
 
-defer 属性表示延迟执行引入的 JavaScript，即这段 JavaScript 加载时 HTML 并未停止解析，这两个过程是并行的。整个 document 解析完毕且 defer-script 也加载完成之后（这两件事情的顺序无关），会执行所有由 defer-script 加载的 JavaScript 代码，然后触发 DOMContentLoaded 事件。
+下载的脚本文件在`DOMContentLoaded`事件触发前执行（即刚刚读取完`</html>`标签）
 
-defer 与相比普通 script，有两点区别：
+而且可以保证执行顺序就是它们在页面上出现的顺序。
+#### 注意
+对于内置而不是加载外部脚本的script标签，以及动态生成的script标签，defer属性不起作用。
 
-​ **载入 JavaScript 文件时不阻塞 HTML 的解析，执行阶段被放到 HTML 标签解析完成之后。**
+使用defer加载的外部脚本不应该使用document.write方法。
 
-​ **在加载多个 JS 脚本的时候，async 是无顺序的加载，而 defer 是有顺序的加载。**
+​在加载多个 JS 脚本的时候，async 是无顺序的加载，而 defer 是有顺序的加载。
+
+### defer属性和async属性到底应该使用哪一个？
+
+一般来说，如果脚本之间没有依赖关系，就使用async属性，如果脚本之间有依赖关系，就使用defer属性。如果同时使用async和defer属性，后者不起作用，浏览器行为由async属性决定。
 
 ### 问题四：为什么操作 DOM 慢
 

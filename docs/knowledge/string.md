@@ -1,6 +1,15 @@
 # 字符串类面试题
 
 ## 解析 URL Params 为对象
+利用`URLSearchParams`
+```js
+// url = http://aa.bb.cn?a=1&b=2&c=3
+const params = new URLSearchParams(window.location.search);
+params.get('a') // 1
+params.get('b') // 2
+params.get('c') // 3
+params.get('d') // null
+```
 
 ```js
 function parseParam(url) {

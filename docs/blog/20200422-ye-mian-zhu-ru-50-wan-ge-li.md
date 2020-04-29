@@ -42,7 +42,6 @@ function add() {
 // 浏览器会基于当前页面是否可见、CPU的负荷情况等来自行决定最佳的帧速率，跟着浏览器的绘制走
 // 如果浏览设备绘制间隔是16.7ms，那我就这个间隔绘制；如果浏览设备绘制间隔是10ms, 我就10ms绘制。
 // 这样自然就合理地使用CPU，不会存在过度绘制的问题，动画不会掉帧
-// [requestAnimationFrame详解](https://developer.mozilla.org/zh-CN/docs/Web/API/Window/requestAnimationFrame)
 const rAF = window.requestAnimationFrame       || 
             window.webkitRequestAnimationFrame || 
             window.mozRequestAnimationFrame    || 
@@ -54,9 +53,10 @@ function fn() {
   }
 }
 ```
+[requestAnimationFrame详解](https://developer.mozilla.org/zh-CN/docs/Web/API/Window/requestAnimationFrame)
 
 但是存在部分浏览器的兼容性
-!(requestAnimationFrame兼容)[https://qnm.hunliji.com/Fv6ClxJz_wRRltsZg0z8JYRgezEn]
+![requestAnimationFrame兼容](https://qnm.hunliji.com/Fv6ClxJz_wRRltsZg0z8JYRgezEn)
 
 所以我们就hack一下这个方法
 ```js

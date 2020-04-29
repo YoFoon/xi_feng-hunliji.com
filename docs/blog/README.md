@@ -12,6 +12,8 @@
 
 [前端工程化](/blog/20200424-qian-duan-gong-cheng-hua.md)
 
+[BitMap算法](/blog/20200428-BitMap.md)
+
 ### REACT
 
 [从 jsx 到 react 的虚拟 dom 对象](/blog/20200414-jsx-2-virtual-dom.md)
