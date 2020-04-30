@@ -11,6 +11,7 @@ module.exports = [
       '20200422-ye-mian-zhu-ru-50-wan-ge-li',
       '20200424-qian-duan-gong-cheng-hua',
       '20200428-BitMap',
+      '20200430-ArrayBuffer-Blob-File',
     ],
   },
   {

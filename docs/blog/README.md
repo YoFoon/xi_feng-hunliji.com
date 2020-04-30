@@ -8,11 +8,13 @@
 
 [wangEditor 上传附件](/blog/20200421-wang-editor-add-upload-file.md)
 
-[页面注入50万个li怎么做提升性能？](/blog/20200422-ye-mian-zhu-ru-50-wan-ge-li.md)
+[页面注入 50 万个 li 怎么做提升性能？](/blog/20200422-ye-mian-zhu-ru-50-wan-ge-li.md)
 
 [前端工程化](/blog/20200424-qian-duan-gong-cheng-hua.md)
 
-[BitMap算法](/blog/20200428-BitMap.md)
+[BitMap 算法](/blog/20200428-BitMap.md)
+
+[ArrayBuffer-Blob-File](/blog/20200430-ArrayBuffer-Blob-File.md)
 
 ### REACT
 
@@ -27,4 +29,3 @@
 [enqueueUpdate](/blog/20200414-enqueue-update.md)
 
 [scheduleWork](/blog/20200414-schedule-work.md)
-
