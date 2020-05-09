@@ -16,6 +16,8 @@
 
 [ArrayBuffer-Blob-File](/blog/20200430-ArrayBuffer-Blob-File.md)
 
+[node 大文件读写](/blog/20200509-node-big-text.md)
+
 ### REACT
 
 [从 jsx 到 react 的虚拟 dom 对象](/blog/20200414-jsx-2-virtual-dom.md)
